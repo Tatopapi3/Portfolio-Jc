@@ -52,12 +52,7 @@ function makeTrees(W: number): TreeSpec[] {
 
 export default function HeroSection() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const [introFaded, setIntroFaded] = useState(false)
-
-  useEffect(() => {
-    const id = setTimeout(() => setIntroFaded(true), 900)
-    return () => clearTimeout(id)
-  }, [])
+  const [isDark, setIsDark] = useState(true)
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -313,26 +308,51 @@ export default function HeroSection() {
     return () => { cancelAnimationFrame(animId); window.removeEventListener('resize', resize) }
   }, [])
 
+  const warm = !isDark
+
   return (
     <section className="snap-section flex items-center justify-center">
       <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />
 
-      {/* Warm intro overlay — fades out to reveal the globe */}
+      {/* Warm fog overlay — toggled on/off */}
       <div
-        className="absolute inset-0 pointer-events-none transition-opacity duration-[1400ms]"
+        className="absolute inset-0 pointer-events-none transition-opacity duration-[1200ms]"
         style={{
-          opacity: introFaded ? 0 : 1,
-          background: 'radial-gradient(ellipse 65% 55% at 50% 42%, rgba(251,191,36,0.72) 0%, rgba(245,158,11,0.32) 30%, rgba(254,243,199,0.14) 60%, transparent 85%), #f2e8d5',
+          opacity: warm ? 1 : 0,
+          background: 'radial-gradient(ellipse 70% 60% at 50% 44%, rgba(251,191,36,0.68) 0%, rgba(245,158,11,0.28) 32%, rgba(254,243,199,0.12) 62%, transparent 86%), #f2e8d5',
           zIndex: 5,
         }}
       />
 
       <nav className="absolute top-7 left-0 right-0 flex items-center justify-between px-8 z-20">
-        <span className="text-white/22 text-[10px] tracking-[0.3em] uppercase font-bold">JF</span>
-        <div className="flex gap-7 text-white/17 text-[10px] font-bold tracking-[0.22em] uppercase">
-          {['Projects','Skills','Experience','Contact'].map(l => (
-            <a key={l} href={`#${l.toLowerCase()}`} className="hover:text-white/60 transition-colors">{l}</a>
-          ))}
+        <span className="text-[10px] tracking-[0.3em] uppercase font-bold transition-colors duration-700"
+          style={{ color: warm ? 'rgba(100,60,5,0.55)' : 'rgba(255,255,255,0.22)' }}>JF</span>
+
+        <div className="flex items-center gap-7">
+          <div className="flex gap-7 text-[10px] font-bold tracking-[0.22em] uppercase">
+            {['Projects','Skills','Experience','Contact'].map(l => (
+              <a key={l} href={`#${l.toLowerCase()}`}
+                className="transition-colors duration-700 hover:opacity-80"
+                style={{ color: warm ? 'rgba(100,60,5,0.4)' : 'rgba(255,255,255,0.17)' }}>
+                {l}
+              </a>
+            ))}
+          </div>
+
+          {/* Theme toggle */}
+          <button
+            onClick={() => setIsDark(d => !d)}
+            className="w-8 h-8 rounded-full flex items-center justify-center transition-all duration-700 hover:scale-110"
+            style={{
+              background: warm ? 'rgba(120,70,5,0.12)' : 'rgba(255,255,255,0.06)',
+              border: warm ? '1px solid rgba(120,70,5,0.18)' : '1px solid rgba(255,255,255,0.10)',
+            }}
+            title={isDark ? 'Switch to warm' : 'Switch to dark'}
+          >
+            <span className="text-[13px] transition-all duration-500" style={{ filter: 'none' }}>
+              {isDark ? '☀' : '🌙'}
+            </span>
+          </button>
         </div>
       </nav>
 
@@ -340,7 +360,9 @@ export default function HeroSection() {
         style={{ marginTop: '-10vh' }}>
         <div className="animate-float">
           <div className="w-24 h-24 md:w-36 md:h-36 rounded-full overflow-hidden relative"
-            style={{ boxShadow: '0 0 50px 18px rgba(195,158,50,0.18), 0 0 100px 36px rgba(180,100,30,0.08)' }}>
+            style={{ boxShadow: warm
+              ? '0 0 50px 18px rgba(195,120,20,0.22), 0 0 90px 30px rgba(180,100,10,0.10)'
+              : '0 0 50px 18px rgba(195,158,50,0.18), 0 0 100px 36px rgba(180,100,30,0.08)' }}>
             <Image src="/avatar.jpg" alt="Juan Fernandez" fill className="object-cover"
               onError={(e) => {
                 const img = e.target as HTMLImageElement; img.style.display = 'none'
@@ -355,28 +377,43 @@ export default function HeroSection() {
         </div>
 
         <div>
-          <p className="section-label mb-7">Pursuit AI Copilot Fellow</p>
+          <p className="section-label mb-7" style={{ color: warm ? '#b45309' : undefined }}>
+            Pursuit AI Copilot Fellow
+          </p>
           <h1 className="text-display block mb-5" style={{ lineHeight: 0.92 }}>
             <span className="block gradient-text animate-fade-up"
               style={{ animationDelay:'300ms', opacity:0, animationFillMode:'forwards' }}>
               AI Builder.
             </span>
-            <span className="block font-thin animate-fade-up"
-              style={{ fontSize:'0.44em', letterSpacing:'0.04em', marginTop:'0.45em', color:'rgba(255,255,255,0.22)', animationDelay:'700ms', opacity:0, animationFillMode:'forwards' }}>
+            <span className="block font-thin animate-fade-up transition-colors duration-700"
+              style={{ fontSize:'0.44em', letterSpacing:'0.04em', marginTop:'0.45em',
+                color: warm ? 'rgba(100,60,5,0.45)' : 'rgba(255,255,255,0.22)',
+                animationDelay:'700ms', opacity:0, animationFillMode:'forwards' }}>
               6 years of recruiting experience.
             </span>
           </h1>
-          <p className="text-white/17 max-w-xs mx-auto mb-9 animate-fade-up"
+          <p className="max-w-xs mx-auto mb-9 animate-fade-up transition-colors duration-700"
             style={{ fontSize:'clamp(0.82rem,1.4vw,1rem)', lineHeight:1.75, fontWeight:300,
+              color: warm ? 'rgba(100,60,5,0.38)' : 'rgba(255,255,255,0.17)',
               animationDelay:'1700ms', opacity:0, animationFillMode:'forwards' }}>
             Full-stack AI engineer.<br />Building products that didn&apos;t exist yesterday.
           </p>
           <div className="flex gap-3 justify-center animate-fade-up"
             style={{ animationDelay:'1900ms', opacity:0, animationFillMode:'forwards' }}>
-            <a href="#projects" className="bg-white text-black px-8 py-3.5 rounded-full font-black text-sm hover:bg-amber-400 transition-colors tracking-wide">
+            <a href="#projects"
+              className="px-8 py-3.5 rounded-full font-black text-sm transition-all duration-700 tracking-wide"
+              style={{
+                background: warm ? '#1a0f00' : '#fff',
+                color: warm ? '#f5e0b0' : '#000',
+              }}>
               See My Work →
             </a>
-            <a href="#contact" className="border border-white/7 text-white/22 hover:text-white/55 hover:border-white/15 px-8 py-3.5 rounded-full text-sm font-medium transition-all">
+            <a href="#contact"
+              className="px-8 py-3.5 rounded-full text-sm font-medium transition-all duration-700"
+              style={{
+                border: warm ? '1px solid rgba(100,60,5,0.18)' : '1px solid rgba(255,255,255,0.07)',
+                color: warm ? 'rgba(100,60,5,0.45)' : 'rgba(255,255,255,0.22)',
+              }}>
               Contact
             </a>
           </div>
@@ -384,8 +421,9 @@ export default function HeroSection() {
       </div>
 
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 opacity-15">
-        <span className="text-[9px] text-white tracking-[0.4em]">SCROLL</span>
-        <div className="w-px h-10 bg-gradient-to-b from-white to-transparent" />
+        <span className="text-[9px] tracking-[0.4em] transition-colors duration-700"
+          style={{ color: warm ? '#5a3500' : '#fff' }}>SCROLL</span>
+        <div className="w-px h-10 bg-gradient-to-b from-current to-transparent" />
       </div>
     </section>
   )
