@@ -17,6 +17,20 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+/* ─── fluid display type ───────────────────────────────────── */
+:root {
+  --display:    clamp(3.2rem, 8.5vw, 8rem);   /* hero / contact  */
+  --headline:   clamp(2.4rem, 5.5vw, 5.5rem); /* section titles  */
+  --statement:  clamp(1.3rem, 2.8vw, 2.4rem); /* taglines        */
+  --body:       clamp(0.9rem, 1.4vw, 1.1rem); /* body copy       */
+}
+
+.text-display   { font-size: var(--display);   line-height: 0.92; letter-spacing: -0.03em; font-weight: 900; }
+.text-headline  { font-size: var(--headline);  line-height: 0.94; letter-spacing: -0.02em; font-weight: 900; }
+.text-statement { font-size: var(--statement); line-height: 1.25; letter-spacing: -0.01em; font-weight: 300; }
+.text-body      { font-size: var(--body);      line-height: 1.65; }
+
+/* ─── snap ─────────────────────────────────────────────────── */
 .snap-section {
   scroll-snap-align: start;
   scroll-snap-stop: always;
@@ -26,10 +40,11 @@ body {
   background: #000;
 }
 
+/* ─── utilities ─────────────────────────────────────────────── */
 .section-label {
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 700;
-  letter-spacing: 0.22em;
+  letter-spacing: 0.28em;
   text-transform: uppercase;
   color: #f59e0b;
 }
@@ -41,10 +56,12 @@ body {
   background-clip: text;
 }
 
-/* Cinematic text reveal — each word slides up */
+.dim { color: rgba(255,255,255,0.18); font-weight: 300; }
+
+/* ─── animations ────────────────────────────────────────────── */
 @keyframes word-in {
-  from { opacity: 0; transform: translateY(28px); filter: blur(4px); }
-  to   { opacity: 1; transform: translateY(0);    filter: blur(0); }
+  from { opacity: 0; transform: translateY(36px); filter: blur(6px); }
+  to   { opacity: 1; transform: translateY(0);    filter: blur(0);   }
 }
 
 @keyframes float {
@@ -53,21 +70,10 @@ body {
 }
 
 @keyframes fade-up {
-  from { opacity: 0; transform: translateY(32px); }
+  from { opacity: 0; transform: translateY(28px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
-@keyframes pulse-core {
-  0%, 100% { opacity: 0.7; transform: scale(1); }
-  50%       { opacity: 1;   transform: scale(1.04); }
-}
-
-@keyframes line-grow {
-  from { width: 0; }
-  to   { width: 3rem; }
-}
-
-.animate-fade-up    { animation: fade-up 0.8s ease forwards; }
-.animate-float      { animation: float 5s ease-in-out infinite; }
-.animate-pulse-core { animation: pulse-core 3s ease-in-out infinite; }
-.animate-word-in    { animation: word-in 0.7s cubic-bezier(0.16,1,0.3,1) forwards; }
+.animate-fade-up { animation: fade-up 0.8s ease forwards; }
+.animate-float   { animation: float 5s ease-in-out infinite; }
+.animate-word-in { animation: word-in 0.75s cubic-bezier(0.16,1,0.3,1) forwards; }
