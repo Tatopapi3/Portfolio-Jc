@@ -1,4 +1,4 @@
-import VantaHero from './components/VantaHero'
+import HeroToggle from './components/HeroToggle'
 
 const projects = [
   {
@@ -109,7 +109,7 @@ export default function Home() {
     <main className="bg-[#050a14] text-white min-h-screen">
 
       {/* Hero */}
-      <VantaHero />
+      <HeroToggle />
 
       {/* Projects */}
       <section id="projects" className="max-w-5xl mx-auto px-6 py-24">
