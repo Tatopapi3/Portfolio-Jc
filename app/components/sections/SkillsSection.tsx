@@ -126,7 +126,7 @@ export default function SkillsSection() {
 
             <div className="space-y-6">
               {[
-                { label:'AI & Machine Learning', tags:['Anthropic Claude API','OpenAI APIs'] },
+                { label:'AI & Machine Learning', tags:['Anthropic Claude API','OpenAI APIs','TensorFlow','Hugging Face','Pinecone'] },
                 { label:'Recruiting & Domain',   tags:['Labor market analysis','ATS systems','AI adoption in hiring','Boolean search'] },
               ].map(g => (
                 <div key={g.label}>
