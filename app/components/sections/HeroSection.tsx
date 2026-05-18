@@ -1,8 +1,6 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
-import Image from 'next/image'
-
 
 // Simplified continent outlines [lat, lon]
 const CONTINENTS: [number, number][][] = [
@@ -493,15 +491,9 @@ export default function HeroSection({
             style={{ boxShadow: warm
               ? '0 0 50px 18px rgba(195,120,20,0.22), 0 0 90px 30px rgba(180,100,10,0.10)'
               : '0 0 50px 18px rgba(195,158,50,0.18), 0 0 100px 36px rgba(180,100,30,0.08)' }}>
-            <Image src="/avatar.png" alt="Juan Fernandez" fill className="object-cover" style={{ objectPosition: 'center 45%' }}
-              onError={(e) => {
-                const img = e.target as HTMLImageElement; img.style.display = 'none'
-                const p = img.parentElement
-                if (p) {
-                  p.style.background = 'radial-gradient(circle at 40% 35%, #3d1800, #080300)'
-                  p.innerHTML = '<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:48px;font-weight:900;color:#f59e0b;letter-spacing:-4px">JF</div>'
-                }
-              }} />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/avatar.png" alt="Juan Fernandez"
+              style={{ width:'100%', height:'100%', objectFit:'cover', objectPosition:'center 45%' }} />
             <div className="absolute inset-0 rounded-full" style={{ boxShadow: 'inset 0 0 30px rgba(195,155,45,0.10)' }} />
           </div>
         </div>
