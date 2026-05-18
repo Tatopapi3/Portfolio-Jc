@@ -358,13 +358,11 @@ export default function HeroSection() {
         <div>
           <p className="section-label mb-7">Pursuit AI Copilot Fellow</p>
           <h1 className="text-display block mb-5" style={{ lineHeight: 0.92 }}>
-            <span className="block text-white/17 font-thin" style={{ fontSize:'0.52em', letterSpacing:'0.06em', marginBottom:'0.35em' }}>
-              <WordReveal text="6 years recruiting engineers." delay={300} />
-            </span>
             <span className="block gradient-text">
-              <WordReveal text="Now I" delay={800} />
-              <br />
-              <WordReveal text="am one." delay={1100} />
+              <WordReveal text="AI Builder." delay={300} />
+            </span>
+            <span className="block text-white/20 font-thin" style={{ fontSize:'0.42em', letterSpacing:'0.06em', marginTop:'0.5em' }}>
+              <WordReveal text="6 years of recruiting experience." delay={900} />
             </span>
           </h1>
           <p className="text-white/17 max-w-xs mx-auto mb-9 animate-fade-up"
