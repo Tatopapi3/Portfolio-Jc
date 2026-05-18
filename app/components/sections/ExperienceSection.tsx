@@ -51,23 +51,74 @@ export default function ExperienceSection() {
   const [active, setActive] = useState(0)
   const [visible, setVisible] = useState(false)
   const ref = useRef<HTMLElement>(null)
+  const canvasRef = useRef<HTMLCanvasElement>(null)
 
   useEffect(() => {
     const el = ref.current
     if (!el) return
     const obs = new IntersectionObserver(([e]) => {
       if (e.isIntersecting) { setVisible(true); setActive(0) }
-    }, { threshold: 0.4 })
+    }, { threshold: 0.35 })
     obs.observe(el)
     return () => obs.disconnect()
+  }, [])
+
+  // Flowing particle river — the passage of time
+  useEffect(() => {
+    const canvas = canvasRef.current
+    if (!canvas) return
+    const cv: HTMLCanvasElement = canvas
+    const ctx = cv.getContext('2d')!
+    let animId: number
+
+    const resize = () => { cv.width = cv.offsetWidth; cv.height = cv.offsetHeight }
+    resize()
+
+    type River = { x: number; y: number; speed: number; alpha: number; size: number; color: string }
+    const COLORS = ['rgba(245,158,11,', 'rgba(251,191,36,', 'rgba(252,211,77,', 'rgba(255,255,255,']
+    const N = window.innerWidth < 768 ? 60 : 120
+    const river: River[] = Array.from({ length: N }, () => ({
+      x: Math.random() * 0.12,
+      y: Math.random(),
+      speed: 0.0008 + Math.random() * 0.0016,
+      alpha: 0.05 + Math.random() * 0.25,
+      size: 1 + Math.random() * 2.5,
+      color: COLORS[Math.floor(Math.random() * COLORS.length)],
+    }))
+
+    function draw() {
+      const W = cv.width, H = cv.height
+      ctx.fillStyle = '#000'
+      ctx.fillRect(0, 0, W, H)
+
+      for (const p of river) {
+        p.y += p.speed
+        if (p.y > 1) { p.y = 0; p.x = Math.random() * 0.12 }
+
+        // Slight horizontal drift
+        p.x += (Math.random() - 0.5) * 0.0008
+
+        ctx.beginPath()
+        ctx.arc(p.x * W, p.y * H, p.size, 0, Math.PI * 2)
+        ctx.fillStyle = p.color + p.alpha.toFixed(2) + ')'
+        ctx.fill()
+      }
+
+      animId = requestAnimationFrame(draw)
+    }
+    draw()
+    return () => cancelAnimationFrame(animId)
   }, [])
 
   const item = items[active]
 
   return (
     <section id="experience" ref={ref} className="snap-section flex flex-col items-center justify-center px-6 py-16">
-      <div className="absolute inset-0 pointer-events-none"
-        style={{ background: `radial-gradient(ellipse 55% 55% at 75% 45%, ${item.color}12 0%, transparent 70%)` }} />
+      <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />
+
+      {/* Warm glow at active item accent */}
+      <div className="absolute inset-0 pointer-events-none transition-all duration-700"
+        style={{ background: `radial-gradient(ellipse 55% 55% at 78% 45%, ${item.color}10 0%, transparent 70%)` }} />
 
       <div className="relative z-10 max-w-5xl w-full">
         <p className="section-label mb-2">Where I've been</p>
@@ -77,47 +128,38 @@ export default function ExperienceSection() {
           {/* Timeline nav */}
           <div className="flex md:flex-col gap-0 flex-shrink-0">
             {items.map((it, i) => (
-              <button
-                key={i}
-                onClick={() => setActive(i)}
+              <button key={i} onClick={() => setActive(i)}
                 className={`flex items-center gap-3 px-4 py-3 text-left rounded-xl transition-all ${
-                  active === i ? 'bg-white/8' : 'hover:bg-white/4'
-                }`}
-              >
-                <div className={`w-2.5 h-2.5 rounded-full flex-shrink-0 transition-all ${
-                  active === i ? 'scale-125' : 'opacity-35'
-                }`} style={{ background: it.color, boxShadow: active === i ? `0 0 10px ${it.color}` : 'none' }} />
-                <span className={`text-sm font-semibold transition-colors ${active === i ? 'text-white' : 'text-white/35'}`}>
+                  active === i ? 'bg-white/6' : 'hover:bg-white/3'
+                }`}>
+                <div className={`w-2.5 h-2.5 rounded-full flex-shrink-0 transition-all ${active === i ? 'scale-125' : 'opacity-25'}`}
+                  style={{ background: it.color, boxShadow: active === i ? `0 0 12px ${it.color}` : 'none' }} />
+                <span className={`text-sm font-semibold transition-colors ${active === i ? 'text-white' : 'text-white/30'}`}>
                   {it.company.split(' — ')[0]}
                 </span>
               </button>
             ))}
           </div>
 
-          {/* Detail */}
-          <div
-            key={active}
-            className={`flex-1 rounded-2xl p-8 border animate-fade-up transition-all`}
+          {/* Detail panel */}
+          <div key={active} className="flex-1 rounded-2xl p-8 border animate-fade-up"
             style={{
-              background: `linear-gradient(135deg, ${item.color}10 0%, rgba(255,255,255,0.02) 100%)`,
-              borderColor: `${item.color}30`,
-            }}
-          >
+              background: `linear-gradient(135deg, ${item.color}0d 0%, rgba(255,255,255,0.02) 100%)`,
+              borderColor: `${item.color}28`,
+            }}>
             <div className="mb-6">
               <h3 className="text-2xl font-black text-white mb-1">{item.role}</h3>
               <p style={{ color: item.color }} className="font-semibold text-sm">{item.company}</p>
-              <p className="text-white/35 text-xs mt-1">{item.period}</p>
+              <p className="text-white/30 text-xs mt-1">{item.period}</p>
             </div>
 
             <ul className="space-y-3">
               {item.bullets.map((b, i) => (
-                <li
-                  key={i}
-                  className={`flex gap-3 text-white/65 text-base leading-relaxed transition-all duration-500 ${
+                <li key={i}
+                  className={`flex gap-3 text-white/55 text-base leading-relaxed transition-all duration-500 ${
                     visible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-4'
                   }`}
-                  style={{ transitionDelay: `${i * 80}ms` }}
-                >
+                  style={{ transitionDelay: `${i * 80}ms` }}>
                   <span style={{ color: item.color }} className="flex-shrink-0 mt-1 text-lg">›</span>
                   {b}
                 </li>
@@ -126,16 +168,16 @@ export default function ExperienceSection() {
           </div>
         </div>
 
-        {/* Education strip */}
-        <div className="mt-6 pt-6 border-t border-white/8 flex flex-wrap gap-6">
+        {/* Education */}
+        <div className="mt-6 pt-6 border-t border-white/6 flex flex-wrap gap-6">
           {[
             ['AI Copilot Fellow', 'Pursuit — New York, NY', 'Mar 2025 – Present'],
             ['CS / IT Coursework', 'Queensborough Community College', ''],
           ].map(([role, school, period]) => (
             <div key={role}>
               <p className="text-white text-sm font-bold">{role}</p>
-              <p className="text-amber-400/70 text-xs">{school}</p>
-              {period && <p className="text-white/30 text-xs">{period}</p>}
+              <p className="text-amber-400/60 text-xs">{school}</p>
+              {period && <p className="text-white/25 text-xs">{period}</p>}
             </div>
           ))}
         </div>

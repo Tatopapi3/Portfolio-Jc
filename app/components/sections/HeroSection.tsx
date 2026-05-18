@@ -18,74 +18,72 @@ export default function HeroSection() {
     resize()
     window.addEventListener('resize', resize)
 
-    type Spark = { x: number; y: number; angle: number; speed: number; r: number; life: number; maxLife: number; color: string }
-    const sparks: Spark[] = []
-    const COLORS = ['#f59e0b','#ef4444','#fb923c','#fde68a','#f97316']
+    type P = { ox: number; oy: number; oz: number }
+    let pts: P[] = []
 
-    function spawnSpark(cx: number, cy: number) {
-      const angle = Math.random() * Math.PI * 2
-      const dist = 140 + Math.random() * 80
-      sparks.push({
-        x: cx + Math.cos(angle) * dist * 0.3,
-        y: cy + Math.sin(angle) * dist * 0.3,
-        angle,
-        speed: 0.4 + Math.random() * 0.8,
-        r: 1 + Math.random() * 2.5,
-        life: 0,
-        maxLife: 80 + Math.random() * 120,
-        color: COLORS[Math.floor(Math.random() * COLORS.length)],
-      })
+    function initSphere() {
+      pts = []
+      const N = window.innerWidth < 768 ? 500 : 1000
+      const R = Math.min(el.width, el.height) * 0.26
+      for (let i = 0; i < N; i++) {
+        const theta = Math.acos(2 * Math.random() - 1)
+        const phi = Math.random() * Math.PI * 2
+        const r = R * (0.88 + Math.random() * 0.12)
+        pts.push({
+          ox: r * Math.sin(theta) * Math.cos(phi),
+          oy: r * Math.sin(theta) * Math.sin(phi),
+          oz: r * Math.cos(theta),
+        })
+      }
     }
+    initSphere()
 
     function draw() {
-      t += 0.01
+      t += 0.0025
       const W = el.width, H = el.height
       const cx = W / 2, cy = H / 2
+      const R = Math.min(W, H) * 0.26
+      const FOV = Math.max(W, H) * 0.75
 
-      ctx.fillStyle = 'rgba(6,4,16,0.22)'
+      ctx.fillStyle = '#000'
       ctx.fillRect(0, 0, W, H)
 
-      // Warm glow behind photo
-      const layers = [
-        { r: 320, alpha: 0.12, color: '#f59e0b' },
-        { r: 220, alpha: 0.20, color: '#ef4444' },
-        { r: 140, alpha: 0.28, color: '#f97316' },
-        { r:  80, alpha: 0.35, color: '#fde68a' },
-      ]
-      layers.forEach(l => {
-        const g = ctx.createRadialGradient(cx, cy, 0, cx, cy, l.r + Math.sin(t) * 15)
-        g.addColorStop(0, l.color + Math.round(l.alpha * 255).toString(16).padStart(2,'0'))
-        g.addColorStop(1, l.color + '00')
-        ctx.beginPath()
-        ctx.arc(cx, cy, l.r + Math.sin(t) * 15, 0, Math.PI * 2)
-        ctx.fillStyle = g
-        ctx.fill()
-      })
+      // Core amber glow
+      const g1 = ctx.createRadialGradient(cx, cy, 0, cx, cy, R * 0.7)
+      g1.addColorStop(0, 'rgba(245,158,11,0.10)')
+      g1.addColorStop(1, 'transparent')
+      ctx.fillStyle = g1; ctx.fillRect(0, 0, W, H)
 
-      // Spawn new sparks
-      if (Math.random() < 0.4) spawnSpark(cx, cy)
+      const g2 = ctx.createRadialGradient(cx, cy, 0, cx, cy, R * 2.2)
+      g2.addColorStop(0, 'rgba(239,68,68,0.04)')
+      g2.addColorStop(1, 'transparent')
+      ctx.fillStyle = g2; ctx.fillRect(0, 0, W, H)
 
-      // Draw + update sparks
-      for (let i = sparks.length - 1; i >= 0; i--) {
-        const s = sparks[i]
-        s.life++
-        s.x += Math.cos(s.angle) * s.speed
-        s.y += Math.sin(s.angle) * s.speed
-        s.angle += 0.02
-        const alpha = (1 - s.life / s.maxLife) * 0.9
-        ctx.beginPath()
-        ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2)
-        ctx.fillStyle = s.color + Math.round(alpha * 255).toString(16).padStart(2,'0')
-        ctx.fill()
-        if (s.life >= s.maxLife) sparks.splice(i, 1)
+      const cosY = Math.cos(t), sinY = Math.sin(t)
+      const cosX = Math.cos(t * 0.22 + 0.4), sinX = Math.sin(t * 0.22 + 0.4)
+
+      const proj: { sx: number; sy: number; depth: number; z: number }[] = []
+      for (const p of pts) {
+        const x1 = p.ox * cosY + p.oz * sinY
+        const z1 = -p.ox * sinY + p.oz * cosY
+        const y2 = p.oy * cosX - z1 * sinX
+        const z2 = p.oy * sinX + z1 * cosX
+        const sc = FOV / (FOV + z2 + R)
+        proj.push({ sx: cx + x1 * sc, sy: cy + y2 * sc, depth: (z2 + R) / (2 * R), z: z2 })
       }
+      proj.sort((a, b) => a.z - b.z)
 
-      // Outer dark vignette
-      const vig = ctx.createRadialGradient(cx, cy, H * 0.15, cx, cy, H * 0.85)
-      vig.addColorStop(0, 'rgba(0,0,0,0)')
-      vig.addColorStop(1, 'rgba(0,0,0,0.8)')
-      ctx.fillStyle = vig
-      ctx.fillRect(0, 0, W, H)
+      for (const p of proj) {
+        const alpha = 0.08 + p.depth * 0.92
+        const size = 0.3 + p.depth * 2.4
+        const rr = Math.round(175 + p.depth * 80)
+        const gg = Math.round(150 + p.depth * 55)
+        const bb = Math.round(210 - p.depth * 160)
+        ctx.beginPath()
+        ctx.arc(p.sx, p.sy, Math.max(0.3, size), 0, Math.PI * 2)
+        ctx.fillStyle = `rgba(${rr},${gg},${bb},${alpha.toFixed(2)})`
+        ctx.fill()
+      }
 
       animId = requestAnimationFrame(draw)
     }
@@ -97,68 +95,71 @@ export default function HeroSection() {
     <section className="snap-section flex items-center justify-center">
       <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />
 
-      {/* Nav dots */}
       <nav className="absolute top-6 left-0 right-0 flex items-center justify-between px-8 z-20">
-        <span className="font-black text-white text-base tracking-widest">JF</span>
-        <div className="flex gap-6 text-sm text-white/50">
-          {[['#projects','Projects'],['#skills','Skills'],['#experience','Experience'],['#contact','Contact']].map(([h,l]) => (
-            <a key={h} href={h} className="hover:text-white transition-colors">{l}</a>
+        <span className="font-black text-white/50 text-sm tracking-[0.2em]">JF</span>
+        <div className="flex gap-6 text-xs text-white/30 font-semibold tracking-widest uppercase">
+          {['Projects','Skills','Experience','Contact'].map(l => (
+            <a key={l} href={`#${l.toLowerCase()}`} className="hover:text-white/70 transition-colors">{l}</a>
           ))}
         </div>
       </nav>
 
-      {/* Main layout */}
-      <div className="relative z-10 flex flex-col md:flex-row items-center gap-12 px-8 max-w-6xl w-full">
-
-        {/* Photo with glow ring */}
-        <div className="flex-shrink-0 animate-float">
-          <div className="relative w-52 h-52 md:w-72 md:h-72" style={{ animation: 'pulse-glow 3s ease-in-out infinite' }}>
-            <div className="w-full h-full rounded-full overflow-hidden border-2 border-amber-400/40 shadow-2xl">
-              <Image
-                src="/avatar.jpg"
-                alt="Juan Fernandez"
-                fill
-                className="object-cover"
-                onError={(e) => {
-                  const t = e.target as HTMLImageElement
-                  t.style.display = 'none'
-                  t.parentElement!.style.background = 'linear-gradient(135deg,#1a0a00,#2d1500)'
-                  t.parentElement!.innerHTML = '<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:72px;font-weight:900;color:#f59e0b;letter-spacing:-4px">JF</div>'
-                }}
-              />
-            </div>
-            {/* Glowing ring */}
-            <div className="absolute inset-0 rounded-full border border-amber-400/20 scale-110" />
-            <div className="absolute inset-0 rounded-full border border-amber-400/10 scale-125" />
+      <div className="relative z-10 flex flex-col items-center gap-7 text-center px-6">
+        {/* Photo — the sphere's living core */}
+        <div className="animate-float">
+          <div
+            className="w-40 h-40 md:w-56 md:h-56 rounded-full overflow-hidden relative"
+            style={{ boxShadow: '0 0 70px 25px rgba(245,158,11,0.22), 0 0 140px 50px rgba(239,68,68,0.08)' }}
+          >
+            <Image
+              src="/avatar.jpg"
+              alt="Juan Fernandez"
+              fill
+              className="object-cover"
+              onError={(e) => {
+                const img = e.target as HTMLImageElement
+                img.style.display = 'none'
+                const parent = img.parentElement
+                if (parent) {
+                  parent.style.background = 'radial-gradient(circle at 40% 35%, #3d1800, #080300)'
+                  parent.innerHTML = '<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:68px;font-weight:900;color:#f59e0b;letter-spacing:-4px">JF</div>'
+                }
+              }}
+            />
+            {/* Inner rim glow */}
+            <div className="absolute inset-0 rounded-full pointer-events-none"
+              style={{ boxShadow: 'inset 0 0 40px rgba(245,158,11,0.12)' }} />
           </div>
+          <div className="absolute inset-0 rounded-full border border-amber-400/12 scale-110 pointer-events-none" style={{ margin: '-4%', borderRadius: '50%' }} />
+          <div className="absolute inset-0 rounded-full border border-white/4 scale-125 pointer-events-none" style={{ margin: '-12%', borderRadius: '50%' }} />
         </div>
 
-        {/* Text */}
-        <div className="text-center md:text-left animate-fade-up">
-          <p className="section-label mb-3">AI Builder · Technical Recruiter · New York, NY</p>
-          <h1 className="text-5xl md:text-7xl font-black mb-4 leading-none tracking-tight">
+        <div className="animate-fade-up" style={{ animationDelay: '300ms' }}>
+          <p className="section-label mb-3">AI Builder · Full-Stack Engineer · New York, NY</p>
+          <h1 className="text-5xl md:text-7xl font-black tracking-tight leading-none mb-5">
             Juan<br />
             <span className="gradient-text">Fernandez</span>
           </h1>
-          <p className="text-white/55 text-lg md:text-xl leading-relaxed max-w-xl mb-8">
-            Building AI products by day, placing engineers at high-growth startups for 6 years.
-            Now shipping full-stack AI apps through Pursuit&apos;s AI Copilot program.
+          <p className="text-white/35 text-base md:text-lg max-w-md mx-auto mb-8 leading-relaxed">
+            Building AI products at Pursuit. 6 years placing engineers at high-growth startups.
+            Now shipping full-stack AI apps.
           </p>
-          <div className="flex flex-wrap gap-3 justify-center md:justify-start">
-            <a href="#projects" className="bg-amber-500 hover:bg-amber-400 text-black px-7 py-3 rounded-xl font-bold text-sm transition-colors">
-              See My Work ↓
+          <div className="flex gap-3 justify-center flex-wrap">
+            <a href="#projects"
+              className="bg-white text-black px-8 py-3 rounded-full font-black text-sm hover:bg-amber-400 transition-colors">
+              Enter →
             </a>
-            <a href="#contact" className="border border-white/15 hover:border-white/30 text-white/80 hover:text-white px-7 py-3 rounded-xl font-semibold text-sm transition-all">
-              Get in Touch
+            <a href="#contact"
+              className="border border-white/12 text-white/40 hover:text-white/80 hover:border-white/22 px-8 py-3 rounded-full text-sm font-semibold transition-all">
+              Contact
             </a>
           </div>
         </div>
       </div>
 
-      {/* Scroll hint */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-1 opacity-40">
-        <span className="text-xs text-white tracking-widest">SCROLL</span>
-        <div className="w-px h-8 bg-gradient-to-b from-white to-transparent" />
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-1.5 opacity-20">
+        <span className="text-[10px] text-white tracking-[0.3em]">SCROLL</span>
+        <div className="w-px h-10 bg-gradient-to-b from-white to-transparent" />
       </div>
     </section>
   )
