@@ -5,12 +5,14 @@ import { useEffect, useRef, useState } from 'react'
 const skills = [
   { name: 'Anthropic Claude API',   level: 90, color: '#f59e0b' },
   { name: 'React / Next.js',        level: 85, color: '#60a5fa' },
-  { name: 'OpenAI APIs',            level: 85, color: '#a78bfa' },
+  { name: 'JavaScript',             level: 88, color: '#fbbf24' },
   { name: 'Node.js',                level: 80, color: '#4ade80' },
   { name: 'PostgreSQL / Supabase',  level: 80, color: '#34d399' },
+  { name: 'SQL',                    level: 78, color: '#2dd4bf' },
   { name: 'TypeScript',             level: 78, color: '#818cf8' },
   { name: 'Python',                 level: 72, color: '#fb923c' },
   { name: 'Tailwind CSS',           level: 90, color: '#38bdf8' },
+  { name: 'OpenAI APIs',            level: 85, color: '#a78bfa' },
 ]
 
 const tools = ['GitHub', 'Vercel', 'Figma', 'Supabase', 'VS Code', 'Canva']
@@ -124,7 +126,7 @@ export default function SkillsSection() {
 
             <div className="space-y-6">
               {[
-                { label:'AI & Machine Learning', tags:['Anthropic Claude API','OpenAI APIs','TensorFlow','Hugging Face','Pinecone'] },
+                { label:'AI & Machine Learning', tags:['Anthropic Claude API','OpenAI APIs'] },
                 { label:'Recruiting & Domain',   tags:['Labor market analysis','ATS systems','AI adoption in hiring','Boolean search'] },
               ].map(g => (
                 <div key={g.label}>
