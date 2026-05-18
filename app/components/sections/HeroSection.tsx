@@ -1,7 +1,26 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
+
+function WordReveal({ text, className = '', baseDelay = 0 }: { text: string; className?: string; baseDelay?: number }) {
+  const [go, setGo] = useState(false)
+  useEffect(() => { const t = setTimeout(() => setGo(true), baseDelay); return () => clearTimeout(t) }, [baseDelay])
+  return (
+    <span className={`inline-flex flex-wrap justify-center gap-x-[0.25em] ${className}`}>
+      {text.split(' ').map((w, i) => (
+        <span key={i} className="overflow-hidden inline-block">
+          <span
+            className="inline-block animate-word-in"
+            style={{ opacity: 0, animationDelay: `${go ? i * 90 : 99999}ms`, animationFillMode: 'forwards' }}
+          >
+            {w}
+          </span>
+        </span>
+      ))}
+    </span>
+  )
+}
 
 export default function HeroSection() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -48,7 +67,6 @@ export default function HeroSection() {
       ctx.fillStyle = '#000'
       ctx.fillRect(0, 0, W, H)
 
-      // Core amber glow
       const g1 = ctx.createRadialGradient(cx, cy, 0, cx, cy, R * 0.7)
       g1.addColorStop(0, 'rgba(245,158,11,0.10)')
       g1.addColorStop(1, 'transparent')
@@ -95,70 +113,70 @@ export default function HeroSection() {
     <section className="snap-section flex items-center justify-center">
       <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />
 
-      <nav className="absolute top-6 left-0 right-0 flex items-center justify-between px-8 z-20">
-        <span className="font-black text-white/50 text-sm tracking-[0.2em]">JF</span>
-        <div className="flex gap-6 text-xs text-white/30 font-semibold tracking-widest uppercase">
+      <nav className="absolute top-7 left-0 right-0 flex items-center justify-between px-8 z-20">
+        <span className="font-black text-white/40 text-xs tracking-[0.25em] uppercase">JF</span>
+        <div className="flex gap-7 text-[11px] text-white/25 font-semibold tracking-[0.18em] uppercase">
           {['Projects','Skills','Experience','Contact'].map(l => (
             <a key={l} href={`#${l.toLowerCase()}`} className="hover:text-white/70 transition-colors">{l}</a>
           ))}
         </div>
       </nav>
 
-      <div className="relative z-10 flex flex-col items-center gap-7 text-center px-6">
-        {/* Photo — the sphere's living core */}
+      <div className="relative z-10 flex flex-col items-center gap-8 text-center px-6 max-w-4xl">
+        {/* Photo */}
         <div className="animate-float">
           <div
-            className="w-40 h-40 md:w-56 md:h-56 rounded-full overflow-hidden relative"
-            style={{ boxShadow: '0 0 70px 25px rgba(245,158,11,0.22), 0 0 140px 50px rgba(239,68,68,0.08)' }}
+            className="w-32 h-32 md:w-44 md:h-44 rounded-full overflow-hidden relative"
+            style={{ boxShadow: '0 0 70px 25px rgba(245,158,11,0.20), 0 0 140px 50px rgba(239,68,68,0.07)' }}
           >
-            <Image
-              src="/avatar.jpg"
-              alt="Juan Fernandez"
-              fill
-              className="object-cover"
+            <Image src="/avatar.jpg" alt="Juan Fernandez" fill className="object-cover"
               onError={(e) => {
                 const img = e.target as HTMLImageElement
                 img.style.display = 'none'
-                const parent = img.parentElement
-                if (parent) {
-                  parent.style.background = 'radial-gradient(circle at 40% 35%, #3d1800, #080300)'
-                  parent.innerHTML = '<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:68px;font-weight:900;color:#f59e0b;letter-spacing:-4px">JF</div>'
+                const p = img.parentElement
+                if (p) {
+                  p.style.background = 'radial-gradient(circle at 40% 35%, #3d1800, #080300)'
+                  p.innerHTML = '<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:60px;font-weight:900;color:#f59e0b;letter-spacing:-4px">JF</div>'
                 }
               }}
             />
-            {/* Inner rim glow */}
-            <div className="absolute inset-0 rounded-full pointer-events-none"
-              style={{ boxShadow: 'inset 0 0 40px rgba(245,158,11,0.12)' }} />
+            <div className="absolute inset-0 rounded-full pointer-events-none" style={{ boxShadow: 'inset 0 0 40px rgba(245,158,11,0.10)' }} />
           </div>
-          <div className="absolute inset-0 rounded-full border border-amber-400/12 scale-110 pointer-events-none" style={{ margin: '-4%', borderRadius: '50%' }} />
-          <div className="absolute inset-0 rounded-full border border-white/4 scale-125 pointer-events-none" style={{ margin: '-12%', borderRadius: '50%' }} />
         </div>
 
-        <div className="animate-fade-up" style={{ animationDelay: '300ms' }}>
-          <p className="section-label mb-3">AI Builder · Full-Stack Engineer · New York, NY</p>
-          <h1 className="text-5xl md:text-7xl font-black tracking-tight leading-none mb-5">
-            Juan<br />
-            <span className="gradient-text">Fernandez</span>
+        {/* Main statement */}
+        <div>
+          <p className="section-label mb-8">New York · Pursuit AI Copilot Fellow</p>
+
+          {/* THE cinematic line */}
+          <h1 className="text-[2.6rem] sm:text-6xl md:text-7xl lg:text-8xl font-black leading-[1.02] tracking-tight mb-6 text-white">
+            <WordReveal text="6 years recruiting" baseDelay={200} className="block" />
+            <WordReveal text="engineers." baseDelay={500}
+              className="block gradient-text" />
+            <WordReveal text="Now I am one." baseDelay={900} className="block" />
           </h1>
-          <p className="text-white/35 text-base md:text-lg max-w-md mx-auto mb-8 leading-relaxed">
-            Building AI products at Pursuit. 6 years placing engineers at high-growth startups.
-            Now shipping full-stack AI apps.
+
+          <p className="text-white/30 text-base md:text-xl font-light max-w-lg mx-auto mb-10 leading-relaxed animate-fade-up"
+            style={{ animationDelay: '1500ms', opacity: 0, animationFillMode: 'forwards' }}>
+            Full-stack AI engineer. Building products that didn&apos;t exist yesterday.
           </p>
-          <div className="flex gap-3 justify-center flex-wrap">
+
+          <div className="flex gap-3 justify-center animate-fade-up"
+            style={{ animationDelay: '1700ms', opacity: 0, animationFillMode: 'forwards' }}>
             <a href="#projects"
-              className="bg-white text-black px-8 py-3 rounded-full font-black text-sm hover:bg-amber-400 transition-colors">
-              Enter →
+              className="bg-white text-black px-8 py-3.5 rounded-full font-black text-sm hover:bg-amber-400 transition-colors tracking-wide">
+              See My Work →
             </a>
             <a href="#contact"
-              className="border border-white/12 text-white/40 hover:text-white/80 hover:border-white/22 px-8 py-3 rounded-full text-sm font-semibold transition-all">
+              className="border border-white/10 text-white/35 hover:text-white/70 hover:border-white/20 px-8 py-3.5 rounded-full text-sm font-semibold transition-all">
               Contact
             </a>
           </div>
         </div>
       </div>
 
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-1.5 opacity-20">
-        <span className="text-[10px] text-white tracking-[0.3em]">SCROLL</span>
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 opacity-20">
+        <span className="text-[10px] text-white tracking-[0.35em]">SCROLL</span>
         <div className="w-px h-10 bg-gradient-to-b from-white to-transparent" />
       </div>
     </section>
