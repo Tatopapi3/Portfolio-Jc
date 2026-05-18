@@ -422,9 +422,9 @@ export default function HeroSection({
 
       // ── "FLUSHING MEADOWS · QUEENS, NY" in the pool ──────
       ctx.save()
-      ctx.font=`600 ${Math.max(9,Math.round(H*.011))}px var(--font-outfit,system-ui)`
-      ctx.textAlign='center'; ctx.letterSpacing='0.28em'
-      ctx.fillStyle=`rgba(95,160,215,${(0.10+0.04*Math.sin(t*.5)).toFixed(2)})`
+      ctx.font=`700 ${Math.max(12,Math.round(H*.016))}px var(--font-outfit,system-ui)`
+      ctx.textAlign='center'; ctx.letterSpacing='0.32em'
+      ctx.fillStyle=`rgba(140,200,255,${(0.55+0.12*Math.sin(t*.5)).toFixed(2)})`
       ctx.fillText('QUEENS NYC', cx, waterY + R*.55)
       ctx.restore()
 
