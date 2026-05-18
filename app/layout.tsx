@@ -10,7 +10,7 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  title: "Juan Fernandez — AI Builder & Full-Stack Engineer",
+  title: "Juan Portfolio",
   description: "AI Software Developer at Pursuit. Building full-stack AI products. Technical Recruiter turned engineer. New York, NY.",
 };
 
