@@ -9,7 +9,7 @@ const links = [
   { label:'github.com/Tatopapi3',         href:'https://github.com/Tatopapi3',       icon:'↗', color:'#a855f7', desc:'GitHub' },
 ]
 
-const FOG = 'radial-gradient(ellipse 65% 60% at 50% 46%, rgba(251,191,36,0.35) 0%, rgba(245,158,11,0.14) 35%, rgba(254,243,199,0.10) 65%, transparent 85%), #ede5d8'
+const FOG = 'radial-gradient(ellipse 60% 55% at 50% 45%, rgba(251,191,36,0.18) 0%, rgba(245,158,11,0.07) 42%, transparent 74%)'
 
 export default function ContactSection({ isDark = true }: { isDark?: boolean }) {
   const [visible, setVisible] = useState(false)
@@ -71,9 +71,10 @@ export default function ContactSection({ isDark = true }: { isDark?: boolean }) 
 
   return (
     <section id="contact" ref={ref} className="snap-section flex flex-col items-center justify-center px-6 py-16">
-      <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />
+      <canvas ref={canvasRef} className="absolute inset-0 w-full h-full"
+        style={{ transition:'filter 1200ms ease', filter: isDark ? 'none' : 'invert(1) hue-rotate(180deg) sepia(0.15) brightness(0.92)' }} />
       <div className="absolute inset-0 pointer-events-none transition-opacity duration-[1200ms]"
-        style={{ opacity: isDark ? 0 : 1, background: FOG, backdropFilter: 'blur(48px) brightness(1.7) saturate(0.4)', WebkitBackdropFilter: 'blur(48px) brightness(1.7) saturate(0.4)', zIndex: 3 }} />
+        style={{ opacity: isDark ? 0 : 1, background: FOG, zIndex: 2 }} />
 
       <div className="relative z-10 max-w-2xl w-full text-center">
         <p className="section-label mb-4" style={{ color: c.label }}>Let&apos;s connect</p>

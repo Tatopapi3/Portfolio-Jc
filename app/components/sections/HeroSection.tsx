@@ -316,15 +316,17 @@ export default function HeroSection({
 
   return (
     <section className="snap-section flex items-center justify-center">
-      <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />
+      {/* Canvas: invert+hue-rotate in light mode to flip dark→light while preserving colors */}
+      <canvas ref={canvasRef} className="absolute inset-0 w-full h-full"
+        style={{ transition: 'filter 1200ms ease', filter: warm ? 'invert(1) hue-rotate(180deg) sepia(0.15) brightness(0.92)' : 'none' }} />
 
-      {/* Warm fog overlay — toggled on/off */}
+      {/* Subtle warm atmospheric glow on top — not opaque */}
       <div
         className="absolute inset-0 pointer-events-none transition-opacity duration-[1200ms]"
         style={{
           opacity: warm ? 1 : 0,
-          background: 'radial-gradient(ellipse 70% 60% at 50% 44%, rgba(251,191,36,0.68) 0%, rgba(245,158,11,0.28) 32%, rgba(254,243,199,0.12) 62%, transparent 86%), #f2e8d5',
-          zIndex: 5,
+          background: 'radial-gradient(ellipse 70% 60% at 50% 44%, rgba(251,191,36,0.22) 0%, rgba(245,158,11,0.10) 38%, transparent 72%)',
+          zIndex: 2,
         }}
       />
 
@@ -385,18 +387,9 @@ export default function HeroSection({
             Pursuit AI Copilot Fellow
           </p>
           <h1 className="text-display block mb-5" style={{ lineHeight: 0.92 }}>
-            {/* Outer span handles fade-up animation; inner span handles gradient clip */}
             <span className="block animate-fade-up"
               style={{ animationDelay:'300ms', opacity:0, animationFillMode:'forwards' }}>
-              <span style={{
-                display: 'block',
-                background: isDark
-                  ? 'linear-gradient(135deg, #d97706 0%, #dc2626 50%, #7c3aed 100%)'
-                  : 'linear-gradient(155deg, #1c1c1c 0%, #686868 18%, #d2d2d2 38%, #ffffff 50%, #bebebe 62%, #525252 82%, #141414 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text',
-              }}>
+              <span className={`block ${isDark ? 'gradient-text' : 'chrome-text'}`}>
                 AI Builder.
               </span>
             </span>

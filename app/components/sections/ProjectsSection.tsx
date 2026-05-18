@@ -46,7 +46,7 @@ const projects = [
   },
 ]
 
-const FOG = 'radial-gradient(ellipse 55% 50% at 28% 32%, rgba(251,191,36,0.22) 0%, transparent 62%), radial-gradient(ellipse 50% 55% at 74% 66%, rgba(245,158,11,0.14) 0%, transparent 58%), radial-gradient(ellipse 95% 85% at 50% 50%, rgba(254,243,199,0.48) 0%, transparent 88%), #ede5d8'
+const FOG = 'radial-gradient(ellipse 60% 55% at 50% 45%, rgba(251,191,36,0.18) 0%, rgba(245,158,11,0.07) 42%, transparent 74%)'
 
 export default function ProjectsSection({ isDark = true }: { isDark?: boolean }) {
   const [active, setActive] = useState(0)
@@ -106,11 +106,12 @@ export default function ProjectsSection({ isDark = true }: { isDark?: boolean })
 
   return (
     <section id="projects" className="snap-section flex flex-col items-center justify-center px-6 py-16">
-      <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />
+      <canvas ref={canvasRef} className="absolute inset-0 w-full h-full"
+        style={{ transition:'filter 1200ms ease', filter: isDark ? 'none' : 'invert(1) hue-rotate(180deg) sepia(0.15) brightness(0.92)' }} />
       <div className="absolute inset-0 pointer-events-none transition-all duration-700"
         style={{ background:`radial-gradient(ellipse 50% 55% at 72% 50%, ${p.accent}12 0%, transparent 70%)` }} />
       <div className="absolute inset-0 pointer-events-none transition-opacity duration-[1200ms]"
-        style={{ opacity: isDark ? 0 : 1, background: FOG, backdropFilter: 'blur(48px) brightness(1.7) saturate(0.4)', WebkitBackdropFilter: 'blur(48px) brightness(1.7) saturate(0.4)', zIndex: 3 }} />
+        style={{ opacity: isDark ? 0 : 1, background: FOG, zIndex: 2 }} />
 
       <div className="relative z-10 max-w-6xl w-full">
         <p className="section-label mb-4" style={{ color: c.label }}>What I&apos;ve shipped</p>

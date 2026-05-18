@@ -56,6 +56,13 @@ body {
   background-clip: text;
 }
 
+.chrome-text {
+  background: linear-gradient(155deg, #1c1c1c 0%, #686868 18%, #d2d2d2 38%, #ffffff 50%, #bebebe 62%, #525252 82%, #141414 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
 .dim { color: rgba(255,255,255,0.18); font-weight: 300; }
 
 /* ─── animations ────────────────────────────────────────────── */
