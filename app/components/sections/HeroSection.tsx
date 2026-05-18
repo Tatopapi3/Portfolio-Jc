@@ -6,38 +6,55 @@ import Image from 'next/image'
 
 // Simplified continent outlines [lat, lon]
 const CONTINENTS: [number, number][][] = [
-  // North America
-  [[60,-142],[48,-125],[40,-124],[32,-117],[22,-106],[22,-97],
-   [22,-89],[15,-90],[8,-77],[5,-77],[10,-75],[12,-72],
-   [25,-77],[30,-81],[40,-74],[44,-66],[47,-53],[52,-55],
-   [60,-65],[63,-78],[65,-84],[70,-97],[72,-112],[72,-142]],
-  // South America
-  [[12,-73],[8,-60],[5,-52],[0,-50],[-5,-35],[-8,-35],
-   [-23,-43],[-33,-52],[-38,-57],[-42,-63],[-55,-65],
-   [-55,-68],[-50,-75],[-42,-73],[-30,-71],[-18,-70],
-   [-5,-80],[0,-80],[8,-77],[12,-73]],
-  // Europe
-  [[71,26],[60,5],[51,2],[48,0],[43,-9],[38,-9],[36,-6],
-   [36,0],[36,15],[37,25],[42,28],[48,37],[55,22],
-   [58,12],[60,5],[65,14],[70,26],[71,26]],
-  // Africa
-  [[37,-5],[37,10],[31,32],[22,37],[12,44],[10,44],
-   [0,42],[-10,40],[-25,35],[-35,27],[-34,18],
-   [-30,17],[-15,12],[-5,9],[0,9],[5,-5],[5,-8],
-   [14,-17],[20,-17],[27,-13],[37,-5]],
-  // Asia
-  [[72,30],[72,100],[72,141],[62,165],[55,162],
-   [45,142],[35,128],[22,118],[20,110],[10,104],
-   [5,102],[10,80],[8,77],[22,68],[24,57],
-   [12,44],[22,38],[30,32],[37,37],[42,50],
-   [45,60],[55,65],[60,60],[65,75],[72,80],[72,30]],
-  // Australia
-  [[-15,129],[-22,114],[-32,115],[-35,117],
-   [-38,140],[-39,147],[-38,148],[-32,152],
-   [-25,153],[-16,146],[-12,136],[-15,129]],
-  // Greenland
-  [[60,-45],[65,-52],[70,-53],[76,-65],[83,-30],[83,-20],
-   [78,-18],[70,-22],[60,-45]],
+  // Continental United States (lats negated so north renders above equator)
+  [[-48.5,-124.7],[-46.2,-124.0],[-42.0,-124.5],[-37.8,-122.5],
+   [-34.4,-120.5],[-32.7,-117.2],[-32.5,-114.7],[-32.0,-111.0],
+   [-31.7,-106.5],[-29.7,-104.0],[-26.0,-97.4],[-27.8,-97.1],
+   [-29.4,-94.7],[-29.9,-93.8],[-29.7,-92.5],[-29.2,-89.4],
+   [-30.2,-88.0],[-30.5,-87.8],[-30.3,-86.5],[-29.5,-85.5],
+   [-29.5,-83.0],[-28.0,-82.8],[-26.9,-82.2],[-25.8,-80.2],
+   [-27.5,-80.3],[-29.1,-80.7],[-30.4,-81.4],[-31.5,-81.1],
+   [-32.1,-80.8],[-33.8,-78.5],[-35.2,-75.5],[-36.6,-76.0],
+   [-37.0,-76.0],[-38.0,-75.4],[-38.5,-75.1],[-39.5,-74.3],
+   [-40.7,-74.0],[-41.3,-72.1],[-41.5,-71.3],[-42.4,-70.9],
+   [-43.9,-69.6],[-44.8,-67.0],[-47.4,-67.4],[-47.0,-69.2],
+   [-45.0,-73.3],[-44.0,-76.8],[-43.6,-76.5],[-43.2,-79.1],
+   [-42.9,-79.0],[-42.7,-82.0],[-42.0,-83.1],[-41.7,-83.3],
+   [-41.7,-86.5],[-42.5,-87.5],[-42.6,-90.4],[-43.5,-91.2],
+   [-46.7,-92.1],[-49.0,-95.2],[-49.0,-104.0],[-49.0,-111.0],
+   [-49.0,-116.5],[-48.9,-123.2],[-48.5,-124.7]],
+  // Canada
+  [[-47.4,-67.4],[-50,-64],[-52,-55],[-56,-60],[-60,-64],[-63,-78],
+   [-65,-84],[-68,-90],[-70,-80],[-72,-78],[-72,-95],[-72,-112],
+   [-72,-142],[-60,-142],[-54,-132],[-50,-126],[-49,-123],
+   [-49,-95],[-49,-70],[-48,-69],[-47.4,-67.4]],
+  // South America (lats negated)
+  [[-12,-73],[-8,-60],[-5,-52],[0,-50],[5,-35],[8,-35],
+   [23,-43],[33,-52],[38,-57],[42,-63],[55,-65],
+   [55,-68],[50,-75],[42,-73],[30,-71],[18,-70],
+   [5,-80],[0,-80],[-8,-77],[-12,-73]],
+  // Europe (lats negated)
+  [[-71,26],[-60,5],[-51,2],[-48,0],[-43,-9],[-38,-9],[-36,-6],
+   [-36,0],[-36,15],[-37,25],[-42,28],[-48,37],[-55,22],
+   [-58,12],[-60,5],[-65,14],[-70,26],[-71,26]],
+  // Africa (lats negated)
+  [[-37,-5],[-37,10],[-31,32],[-22,37],[-12,44],[-10,44],
+   [0,42],[10,40],[25,35],[35,27],[34,18],
+   [30,17],[15,12],[5,9],[0,9],[-5,-5],[-5,-8],
+   [-14,-17],[-20,-17],[-27,-13],[-37,-5]],
+  // Asia (lats negated)
+  [[-72,30],[-72,100],[-72,141],[-62,165],[-55,162],
+   [-45,142],[-35,128],[-22,118],[-20,110],[-10,104],
+   [-5,102],[-10,80],[-8,77],[-22,68],[-24,57],
+   [-12,44],[-22,38],[-30,32],[-37,37],[-42,50],
+   [-45,60],[-55,65],[-60,60],[-65,75],[-72,80],[-72,30]],
+  // Australia (lats negated — was southern hemisphere, now northern half of globe)
+  [[15,129],[22,114],[32,115],[35,117],
+   [38,140],[39,147],[38,148],[32,152],
+   [25,153],[16,146],[12,136],[15,129]],
+  // Greenland (lats negated)
+  [[-60,-45],[-65,-52],[-70,-53],[-76,-65],[-83,-30],[-83,-20],
+   [-78,-18],[-70,-22],[-60,-45]],
 ]
 
 type TreeSpec = { x: number; h: number; kind: number }
@@ -113,7 +130,7 @@ export default function HeroSection({
       ctx.fillStyle = lamp; ctx.fillRect(0, 0, W, H)
 
       // ── Globe rotation ─────────────────────────────────────
-      const cosY = Math.cos(t * 0.32), sinY = Math.sin(t * 0.32)
+      const cosY = Math.cos(t * 0.32 - 2.86), sinY = Math.sin(t * 0.32 - 2.86)
 
       function project(x3: number, y3: number, z3: number) {
         const rx = x3 * cosY + z3 * sinY
@@ -229,6 +246,113 @@ export default function HeroSection({
               ctx.lineWidth=(0.5+d*1.6)*0.5;ctx.stroke()
             }
           }
+        }
+      }
+
+      // ── NYC Landmarks (SoL + ESB + Yankee Stadium) ───────────
+      {
+        const nyPt = latLon(-40.7, -74.0, R * 1.015)
+        const d = nyPt.depth
+        if (d > 0.32 && nyPt.sy < waterY - 4) {
+          const nx = nyPt.sx, ny = nyPt.sy
+          const hs = R * 0.26 * (0.55 + d * 0.45)
+          const alpha = Math.min((d - 0.32) / 0.22, 1) * 0.88
+          const baseY = ny + hs * 0.06
+
+          // Ambient amber glow
+          const glow = ctx.createRadialGradient(nx, ny, 0, nx, ny, hs * 1.4)
+          glow.addColorStop(0, `rgba(245,158,11,${(alpha * 0.16).toFixed(2)})`)
+          glow.addColorStop(1, 'transparent')
+          ctx.fillStyle = glow
+          ctx.fillRect(nx - hs * 1.4, ny - hs * 1.4, hs * 2.8, hs * 2.8)
+
+          const fill  = `rgba(238,228,205,${alpha.toFixed(2)})`
+          const bright= `rgba(255,248,230,${alpha.toFixed(2)})`
+
+          // ── EMPIRE STATE BUILDING (center) ───────────────────
+          {
+            const ex = nx + hs * 0.28
+            const eH = hs * 1.08
+            ctx.fillStyle = fill
+            // Art Deco setbacks: [cumulative height fraction, half-width fraction]
+            const steps: [number,number][] = [
+              [0.00, 0.155],[0.18, 0.155],
+              [0.18, 0.112],[0.38, 0.112],
+              [0.38, 0.082],[0.58, 0.082],
+              [0.58, 0.056],[0.72, 0.056],
+              [0.72, 0.038],[0.83, 0.038],
+              [0.83, 0.026],[0.90, 0.026],
+            ]
+            for (let i = 0; i < steps.length; i += 2) {
+              const [y0, w0] = steps[i], [y1] = steps[i+1]
+              ctx.fillRect(ex - eH*w0, baseY - eH*y1, eH*w0*2, eH*(y1-y0))
+            }
+            // Mooring mast
+            ctx.fillRect(ex - eH*0.013, baseY - eH*0.96, eH*0.026, eH*0.06)
+            // Spire
+            ctx.beginPath()
+            ctx.moveTo(ex - eH*0.009, baseY - eH*0.96)
+            ctx.lineTo(ex, baseY - eH*1.08)
+            ctx.lineTo(ex + eH*0.009, baseY - eH*0.96)
+            ctx.closePath(); ctx.fill()
+          }
+
+          // ── STATUE OF LIBERTY (left) ──────────────────────────
+          {
+            const sx = nx - hs * 0.38
+            const sH = hs * 0.86
+            ctx.fillStyle = fill
+            // Star-fort base (wide flat)
+            ctx.fillRect(sx - sH*0.28, baseY - sH*0.05, sH*0.56, sH*0.05)
+            // Pedestal tier 1
+            ctx.fillRect(sx - sH*0.22, baseY - sH*0.17, sH*0.44, sH*0.12)
+            // Pedestal tier 2
+            ctx.fillRect(sx - sH*0.15, baseY - sH*0.35, sH*0.30, sH*0.18)
+            // Statue robe (flowing, tapered)
+            ctx.beginPath()
+            ctx.moveTo(sx - sH*0.15, baseY - sH*0.35)
+            ctx.lineTo(sx - sH*0.13, baseY - sH*0.44)
+            ctx.lineTo(sx - sH*0.075, baseY - sH*0.62)
+            ctx.lineTo(sx - sH*0.052, baseY - sH*0.70)
+            ctx.lineTo(sx + sH*0.052, baseY - sH*0.70)
+            ctx.lineTo(sx + sH*0.075, baseY - sH*0.62)
+            ctx.lineTo(sx + sH*0.13,  baseY - sH*0.44)
+            ctx.lineTo(sx + sH*0.15,  baseY - sH*0.35)
+            ctx.closePath(); ctx.fill()
+            // Head
+            ctx.beginPath()
+            ctx.arc(sx, baseY - sH*0.76, sH*0.058, 0, Math.PI*2)
+            ctx.fill()
+            // Crown — 7 radiating rays
+            ctx.strokeStyle = bright
+            ctx.lineWidth = Math.max(1.0, sH*0.022)
+            for (let k = -3; k <= 3; k++) {
+              const ang = (k * 21 - 90) * Math.PI / 180
+              ctx.beginPath()
+              ctx.moveTo(sx + Math.cos(ang)*sH*0.065, baseY - sH*0.76 + Math.sin(ang)*sH*0.065)
+              ctx.lineTo(sx + Math.cos(ang)*sH*0.125, baseY - sH*0.76 + Math.sin(ang)*sH*0.125)
+              ctx.stroke()
+            }
+            // Raised torch arm (right side, angled up)
+            ctx.strokeStyle = fill
+            ctx.lineWidth = Math.max(1.5, sH*0.042)
+            ctx.beginPath()
+            ctx.moveTo(sx + sH*0.052, baseY - sH*0.68)
+            ctx.lineTo(sx + sH*0.21,  baseY - sH*0.90)
+            ctx.stroke()
+            // Torch handle
+            ctx.fillStyle = fill
+            ctx.fillRect(sx + sH*0.195, baseY - sH*0.925, sH*0.028, sH*0.06)
+            // Torch flame
+            const flame = ctx.createRadialGradient(sx+sH*0.21, baseY-sH*1.00, 0, sx+sH*0.21, baseY-sH*1.00, sH*0.055)
+            flame.addColorStop(0,   `rgba(255,220,40,${alpha.toFixed(2)})`)
+            flame.addColorStop(0.5, `rgba(245,140,20,${(alpha*0.7).toFixed(2)})`)
+            flame.addColorStop(1,   'transparent')
+            ctx.fillStyle = flame
+            ctx.fillRect(sx+sH*0.155, baseY-sH*1.055, sH*0.11, sH*0.11)
+            ctx.fillStyle = fill
+          }
+
         }
       }
 
@@ -369,7 +493,7 @@ export default function HeroSection({
             style={{ boxShadow: warm
               ? '0 0 50px 18px rgba(195,120,20,0.22), 0 0 90px 30px rgba(180,100,10,0.10)'
               : '0 0 50px 18px rgba(195,158,50,0.18), 0 0 100px 36px rgba(180,100,30,0.08)' }}>
-            <Image src="/avatar.jpg" alt="Juan Fernandez" fill className="object-cover"
+            <Image src="/avatar.png" alt="Juan Fernandez" fill className="object-cover" style={{ objectPosition: 'center 45%' }}
               onError={(e) => {
                 const img = e.target as HTMLImageElement; img.style.display = 'none'
                 const p = img.parentElement
