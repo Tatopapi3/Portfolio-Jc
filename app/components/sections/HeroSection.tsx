@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 
 
@@ -52,6 +52,12 @@ function makeTrees(W: number): TreeSpec[] {
 
 export default function HeroSection() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const [introFaded, setIntroFaded] = useState(false)
+
+  useEffect(() => {
+    const id = setTimeout(() => setIntroFaded(true), 900)
+    return () => clearTimeout(id)
+  }, [])
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -310,6 +316,16 @@ export default function HeroSection() {
   return (
     <section className="snap-section flex items-center justify-center">
       <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />
+
+      {/* Warm intro overlay — fades out to reveal the globe */}
+      <div
+        className="absolute inset-0 pointer-events-none transition-opacity duration-[1400ms]"
+        style={{
+          opacity: introFaded ? 0 : 1,
+          background: 'radial-gradient(ellipse 65% 55% at 50% 42%, rgba(251,191,36,0.72) 0%, rgba(245,158,11,0.32) 30%, rgba(254,243,199,0.14) 60%, transparent 85%), #f2e8d5',
+          zIndex: 5,
+        }}
+      />
 
       <nav className="absolute top-7 left-0 right-0 flex items-center justify-between px-8 z-20">
         <span className="text-white/22 text-[10px] tracking-[0.3em] uppercase font-bold">JF</span>
