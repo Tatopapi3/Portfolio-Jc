@@ -1,25 +1,8 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import Image from 'next/image'
 
-function WordReveal({ text, className = '', delay = 0, thin = false }:
-  { text: string; className?: string; delay?: number; thin?: boolean }) {
-  const [go, setGo] = useState(false)
-  useEffect(() => { const id = setTimeout(() => setGo(true), delay); return () => clearTimeout(id) }, [delay])
-  return (
-    <>
-      {text.split(' ').map((w, i) => (
-        <span key={i} className="overflow-hidden inline-block mr-[0.22em]">
-          <span className={`inline-block animate-word-in ${thin ? 'font-thin' : ''} ${className}`}
-            style={{ opacity: 0, animationDelay: go ? `${i * 95}ms` : '99999ms', animationFillMode: 'forwards' }}>
-            {w}
-          </span>
-        </span>
-      ))}
-    </>
-  )
-}
 
 // Simplified continent outlines [lat, lon]
 const CONTINENTS: [number, number][][] = [
@@ -358,11 +341,13 @@ export default function HeroSection() {
         <div>
           <p className="section-label mb-7">Pursuit AI Copilot Fellow</p>
           <h1 className="text-display block mb-5" style={{ lineHeight: 0.92 }}>
-            <span className="block gradient-text">
-              <WordReveal text="AI Builder." delay={300} />
+            <span className="block gradient-text animate-fade-up"
+              style={{ animationDelay:'300ms', opacity:0, animationFillMode:'forwards' }}>
+              AI Builder.
             </span>
-            <span className="block text-white/20 font-thin" style={{ fontSize:'0.42em', letterSpacing:'0.06em', marginTop:'0.5em' }}>
-              <WordReveal text="6 years of recruiting experience." delay={900} />
+            <span className="block font-thin animate-fade-up"
+              style={{ fontSize:'0.44em', letterSpacing:'0.04em', marginTop:'0.45em', color:'rgba(255,255,255,0.22)', animationDelay:'700ms', opacity:0, animationFillMode:'forwards' }}>
+              6 years of recruiting experience.
             </span>
           </h1>
           <p className="text-white/17 max-w-xs mx-auto mb-9 animate-fade-up"
