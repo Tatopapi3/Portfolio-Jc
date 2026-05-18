@@ -385,19 +385,20 @@ export default function HeroSection({
             Pursuit AI Copilot Fellow
           </p>
           <h1 className="text-display block mb-5" style={{ lineHeight: 0.92 }}>
+            {/* Outer span handles fade-up animation; inner span handles gradient clip */}
             <span className="block animate-fade-up"
-              style={{
+              style={{ animationDelay:'300ms', opacity:0, animationFillMode:'forwards' }}>
+              <span style={{
+                display: 'block',
                 background: isDark
                   ? 'linear-gradient(135deg, #d97706 0%, #dc2626 50%, #7c3aed 100%)'
-                  : 'linear-gradient(155deg, #3d200a 0%, #b8781a 18%, #f0c060 38%, #ffffff 50%, #e8c070 62%, #a06018 82%, #3d200a 100%)',
+                  : 'linear-gradient(155deg, #1c1c1c 0%, #686868 18%, #d2d2d2 38%, #ffffff 50%, #bebebe 62%, #525252 82%, #141414 100%)',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
                 backgroundClip: 'text',
-                animationDelay: '300ms',
-                opacity: 0,
-                animationFillMode: 'forwards',
               }}>
-              AI Builder.
+                AI Builder.
+              </span>
             </span>
             <span className="block font-thin animate-fade-up transition-colors duration-700"
               style={{ fontSize:'0.44em', letterSpacing:'0.04em', marginTop:'0.45em',
