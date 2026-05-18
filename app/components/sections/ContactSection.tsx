@@ -9,7 +9,9 @@ const links = [
   { label:'github.com/Tatopapi3',         href:'https://github.com/Tatopapi3',       icon:'↗', color:'#a855f7', desc:'GitHub' },
 ]
 
-export default function ContactSection() {
+const FOG = 'radial-gradient(ellipse 65% 60% at 50% 46%, rgba(251,191,36,0.35) 0%, rgba(245,158,11,0.14) 35%, rgba(254,243,199,0.10) 65%, transparent 85%), #ede5d8'
+
+export default function ContactSection({ isDark = true }: { isDark?: boolean }) {
   const [visible, setVisible] = useState(false)
   const ref = useRef<HTMLElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -58,24 +60,33 @@ export default function ContactSection() {
     return ()=>cancelAnimationFrame(animId)
   }, [])
 
+  const c = {
+    label:    isDark ? '#f59e0b' : '#b45309',
+    headline: isDark ? '#fff'    : '#1a0a00',
+    sub:      isDark ? 'rgba(255,255,255,0.22)' : 'rgba(26,10,0,0.40)',
+    linkText: isDark ? 'rgba(255,255,255,0.55)' : 'rgba(26,10,0,0.60)',
+    arrow:    isDark ? 'rgba(255,255,255,0.10)' : 'rgba(26,10,0,0.18)',
+    copy:     isDark ? 'rgba(255,255,255,0.10)' : 'rgba(26,10,0,0.20)',
+  }
+
   return (
     <section id="contact" ref={ref} className="snap-section flex flex-col items-center justify-center px-6 py-16">
       <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />
+      <div className="absolute inset-0 pointer-events-none transition-opacity duration-[1200ms]"
+        style={{ opacity: isDark ? 0 : 1, background: FOG, backdropFilter: 'blur(48px) brightness(1.7) saturate(0.4)', WebkitBackdropFilter: 'blur(48px) brightness(1.7) saturate(0.4)', zIndex: 3 }} />
 
       <div className="relative z-10 max-w-2xl w-full text-center">
-        <p className="section-label mb-4">Let&apos;s connect</p>
+        <p className="section-label mb-4" style={{ color: c.label }}>Let&apos;s connect</p>
 
-        {/* BIG closing statement */}
         <h2 className={`text-display block mb-3 transition-all duration-700 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
           style={{ lineHeight:0.92 }}>
-          <span className="text-white">Let&apos;s build</span>
+          <span style={{ color: c.headline }}>Let&apos;s build</span>
           <br />
           <span className="gradient-text">something.</span>
         </h2>
 
-        {/* Thin sub-statement */}
         <p className={`mt-6 mb-12 transition-all duration-700 delay-150 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
-          style={{ fontSize:'clamp(1rem,2vw,1.4rem)', fontWeight:300, color:'rgba(255,255,255,0.22)', lineHeight:1.55, maxWidth:'22ch', margin:'1.5rem auto 3rem' }}>
+          style={{ fontSize:'clamp(1rem,2vw,1.4rem)', fontWeight:300, color: c.sub, lineHeight:1.55, maxWidth:'22ch', margin:'1.5rem auto 3rem' }}>
           Open to engineering roles,<br />AI product work, and freelance.
         </p>
 
@@ -84,24 +95,23 @@ export default function ContactSection() {
             <a key={l.label} href={l.href}
               target={l.href.startsWith('http') ? '_blank' : undefined}
               rel={l.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-              className={`flex items-center gap-4 p-5 rounded-2xl border transition-all duration-500 group hover:scale-[1.015] ${
-                visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
-              }`}
+              className={`flex items-center gap-4 p-5 rounded-2xl border transition-all duration-500 group hover:scale-[1.015] ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
               style={{ transitionDelay:`${(i+2)*90}ms`, background:`${l.color}05`, borderColor:`${l.color}18` }}>
               <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 font-bold text-sm transition-transform group-hover:scale-110"
                 style={{ background:`${l.color}10`, color:l.color }}>
                 {l.icon}
               </div>
               <div className="flex-1 text-left min-w-0">
-                <p className="text-[10px] font-bold uppercase tracking-[0.22em] mb-0.5" style={{ color:`${l.color}65` }}>{l.desc}</p>
-                <p className="text-white/55 text-sm font-medium truncate group-hover:text-white transition-colors">{l.label}</p>
+                <p className="text-[10px] font-bold uppercase tracking-[0.22em] mb-0.5" style={{ color:`${l.color}90` }}>{l.desc}</p>
+                <p className="text-sm font-medium truncate transition-colors" style={{ color: c.linkText }}>{l.label}</p>
               </div>
-              <span className="text-white/10 group-hover:text-white/40 transition-colors text-lg">›</span>
+              <span className="transition-colors text-lg" style={{ color: c.arrow }}>›</span>
             </a>
           ))}
         </div>
 
-        <p className={`mt-12 text-[10px] tracking-[0.25em] text-white/10 transition-all duration-700 delay-700 ${visible ? 'opacity-100' : 'opacity-0'}`}>
+        <p className={`mt-12 text-[10px] tracking-[0.25em] transition-all duration-700 delay-700 ${visible ? 'opacity-100' : 'opacity-0'}`}
+          style={{ color: c.copy }}>
           © 2026 JUAN FERNANDEZ · NEW YORK, NY
         </p>
       </div>

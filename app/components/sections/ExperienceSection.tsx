@@ -51,7 +51,9 @@ const items = [
   },
 ]
 
-export default function ExperienceSection() {
+const FOG = 'radial-gradient(ellipse 55% 50% at 22% 28%, rgba(251,191,36,0.22) 0%, transparent 62%), radial-gradient(ellipse 50% 55% at 80% 72%, rgba(245,158,11,0.14) 0%, transparent 58%), radial-gradient(ellipse 95% 85% at 50% 50%, rgba(254,243,199,0.48) 0%, transparent 88%), #ede5d8'
+
+export default function ExperienceSection({ isDark = true }: { isDark?: boolean }) {
   const [active, setActive] = useState(0)
   const [visible, setVisible] = useState(false)
   const ref = useRef<HTMLElement>(null)
@@ -94,58 +96,60 @@ export default function ExperienceSection() {
   }, [])
 
   const item = items[active]
+  const c = {
+    label:    isDark ? '#f59e0b' : '#b45309',
+    headline: isDark ? '#fff'    : '#1a0a00',
+    period:   isDark ? 'rgba(255,255,255,0.20)' : 'rgba(26,10,0,0.32)',
+    role:     isDark ? 'rgba(255,255,255,0.40)' : 'rgba(26,10,0,0.52)',
+    tagline:  isDark ? '#fff'    : '#1a0a00',
+    bullet:   isDark ? 'rgba(255,255,255,0.35)' : 'rgba(26,10,0,0.50)',
+    tabActive:isDark ? '#fff'    : '#1a0a00',
+    tabInact: isDark ? 'rgba(255,255,255,0.22)' : 'rgba(26,10,0,0.32)',
+    tabActiveBg: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)',
+    eduName:  isDark ? '#fff'    : '#1a0a00',
+    eduSub:   isDark ? 'rgba(245,196,100,0.45)' : 'rgba(120,60,0,0.55)',
+    eduDate:  isDark ? 'rgba(255,255,255,0.18)' : 'rgba(26,10,0,0.28)',
+    divider:  isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.07)',
+  }
 
   return (
     <section id="experience" ref={ref} className="snap-section flex flex-col items-center justify-center px-6 py-16">
       <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />
       <div className="absolute inset-0 pointer-events-none transition-all duration-700"
         style={{ background:`radial-gradient(ellipse 55% 55% at 78% 45%, ${item.color}0d 0%, transparent 70%)` }} />
+      <div className="absolute inset-0 pointer-events-none transition-opacity duration-[1200ms]"
+        style={{ opacity: isDark ? 0 : 1, background: FOG, backdropFilter: 'blur(48px) brightness(1.7) saturate(0.4)', WebkitBackdropFilter: 'blur(48px) brightness(1.7) saturate(0.4)', zIndex: 3 }} />
 
       <div className="relative z-10 max-w-5xl w-full">
-        <p className="section-label mb-4">Where I&apos;ve been</p>
-        <h2 className="text-headline text-white mb-12">Experience</h2>
+        <p className="section-label mb-4" style={{ color: c.label }}>Where I&apos;ve been</p>
+        <h2 className="text-headline mb-12" style={{ color: c.headline }}>Experience</h2>
 
         <div className="flex flex-col md:flex-row gap-8">
-          {/* Nav */}
           <div className="flex md:flex-col gap-1 flex-shrink-0">
             {items.map((it, i) => (
               <button key={i} onClick={() => setActive(i)}
-                className={`flex items-center gap-3 px-4 py-3.5 text-left rounded-xl transition-all ${active===i ? 'bg-white/5' : 'hover:bg-white/2'}`}>
-                <div className={`w-2 h-2 rounded-full flex-shrink-0 transition-all ${active===i ? 'scale-125' : 'opacity-18'}`}
-                  style={{ background:it.color, boxShadow:active===i ? `0 0 10px ${it.color}` : 'none' }} />
-                <span className={`text-sm font-semibold tracking-wide transition-colors whitespace-nowrap ${active===i ? 'text-white' : 'text-white/22'}`}>
+                className="flex items-center gap-3 px-4 py-3.5 text-left rounded-xl transition-all"
+                style={{ background: active===i ? c.tabActiveBg : 'transparent' }}>
+                <div className="w-2 h-2 rounded-full flex-shrink-0 transition-all"
+                  style={{ background:it.color, boxShadow:active===i ? `0 0 10px ${it.color}` : 'none', opacity: active===i ? 1 : 0.18, transform: active===i ? 'scale(1.25)' : 'scale(1)' }} />
+                <span className="text-sm font-semibold tracking-wide transition-colors whitespace-nowrap"
+                  style={{ color: active===i ? c.tabActive : c.tabInact }}>
                   {it.company}
                 </span>
               </button>
             ))}
           </div>
 
-          {/* Detail panel */}
           <div key={active} className="flex-1 rounded-2xl p-8 md:p-10 border animate-fade-up"
-            style={{
-              background: `linear-gradient(135deg, ${item.color}0a 0%, rgba(255,255,255,0.012) 100%)`,
-              borderColor: `${item.color}20`,
-            }}>
-            {/* Period label */}
-            <p className="text-white/20 text-[10px] tracking-[0.25em] uppercase font-bold mb-5">{item.period}</p>
-
-            {/* Role — medium */}
-            <p className="text-white/40 text-xs font-bold tracking-[0.2em] uppercase mb-2">{item.role}</p>
+            style={{ background:`linear-gradient(135deg, ${item.color}0a 0%, ${isDark ? 'rgba(255,255,255,0.012)' : 'rgba(0,0,0,0.012)'} 100%)`, borderColor:`${item.color}20` }}>
+            <p className="text-[10px] tracking-[0.25em] uppercase font-bold mb-5" style={{ color: c.period }}>{item.period}</p>
+            <p className="text-xs font-bold tracking-[0.2em] uppercase mb-2" style={{ color: c.role }}>{item.role}</p>
             <p className="text-xs font-semibold mb-8" style={{ color:item.color, letterSpacing:'0.12em' }}>{item.company}</p>
-
-            {/* THE cinematic tagline — most prominent thing on the card */}
-            <h3 className="text-statement font-light text-white whitespace-pre-line mb-10 leading-snug">
-              {item.tagline}
-            </h3>
-
-            {/* Bullets */}
+            <h3 className="text-statement font-light whitespace-pre-line mb-10 leading-snug" style={{ color: c.tagline }}>{item.tagline}</h3>
             <ul className="space-y-3">
               {item.bullets.map((b, i) => (
-                <li key={i}
-                  className={`flex gap-3 text-white/35 leading-relaxed transition-all duration-500 ${
-                    visible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-4'
-                  }`}
-                  style={{ fontSize:'clamp(0.8rem,1.3vw,0.92rem)', transitionDelay:`${i*80}ms` }}>
+                <li key={i} className={`flex gap-3 leading-relaxed transition-all duration-500 ${visible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-4'}`}
+                  style={{ fontSize:'clamp(0.8rem,1.3vw,0.92rem)', transitionDelay:`${i*80}ms`, color: c.bullet }}>
                   <span style={{ color:item.color }} className="flex-shrink-0 mt-0.5">›</span>
                   {b}
                 </li>
@@ -154,14 +158,13 @@ export default function ExperienceSection() {
           </div>
         </div>
 
-        {/* Education */}
-        <div className="mt-7 pt-7 border-t border-white/5 flex flex-wrap gap-8">
+        <div className="mt-7 pt-7 flex flex-wrap gap-8" style={{ borderTop: `1px solid ${c.divider}` }}>
           {[['AI Copilot Fellow','Pursuit — New York, NY','Mar 2025 – Present'],
             ['CS / IT Coursework','Queensborough Community College','']].map(([role,school,period])=>(
             <div key={role}>
-              <p className="text-white text-sm font-bold mb-0.5">{role}</p>
-              <p className="text-amber-400/45 text-xs">{school}</p>
-              {period && <p className="text-white/18 text-xs mt-0.5">{period}</p>}
+              <p className="text-sm font-bold mb-0.5" style={{ color: c.eduName }}>{role}</p>
+              <p className="text-xs" style={{ color: c.eduSub }}>{school}</p>
+              {period && <p className="text-xs mt-0.5" style={{ color: c.eduDate }}>{period}</p>}
             </div>
           ))}
         </div>

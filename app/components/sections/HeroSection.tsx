@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import Image from 'next/image'
 
 
@@ -50,9 +50,13 @@ function makeTrees(W: number): TreeSpec[] {
   return out
 }
 
-export default function HeroSection() {
+export default function HeroSection({
+  isDark, setIsDark,
+}: {
+  isDark: boolean
+  setIsDark: (fn: (v: boolean) => boolean) => void
+}) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const [isDark, setIsDark] = useState(true)
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -381,8 +385,18 @@ export default function HeroSection() {
             Pursuit AI Copilot Fellow
           </p>
           <h1 className="text-display block mb-5" style={{ lineHeight: 0.92 }}>
-            <span className="block gradient-text animate-fade-up"
-              style={{ animationDelay:'300ms', opacity:0, animationFillMode:'forwards' }}>
+            <span className="block animate-fade-up"
+              style={{
+                background: isDark
+                  ? 'linear-gradient(135deg, #d97706 0%, #dc2626 50%, #7c3aed 100%)'
+                  : 'linear-gradient(155deg, #3d200a 0%, #b8781a 18%, #f0c060 38%, #ffffff 50%, #e8c070 62%, #a06018 82%, #3d200a 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text',
+                animationDelay: '300ms',
+                opacity: 0,
+                animationFillMode: 'forwards',
+              }}>
               AI Builder.
             </span>
             <span className="block font-thin animate-fade-up transition-colors duration-700"
