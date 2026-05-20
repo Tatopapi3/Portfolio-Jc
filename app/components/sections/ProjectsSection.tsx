@@ -52,7 +52,7 @@ const projects = [
     year: '2026',
     type: 'Personal Project',
     headline: 'Know your worth.\nAsk for more.\nGet it.',
-    desc: 'AI salary negotiation coach powered by Claude + real market data. RAG pipeline over NYC job descriptions delivers counter-offer ranges, word-for-word negotiation emails, and leverage points.',
+    desc: 'AI salary negotiation coach with RAG pipeline, request logging, retrieval quality scoring, user feedback loops, and a live observability dashboard — built to production standards.',
     tech: ['Python', 'FastAPI', 'Claude API', 'Supabase', 'pgvector', 'Streamlit'],
     badge: '🐍 Python',
     accent: '#06b6d4',
