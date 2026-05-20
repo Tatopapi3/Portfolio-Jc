@@ -56,7 +56,7 @@ const projects = [
     tech: ['Python', 'FastAPI', 'Claude API', 'Supabase', 'pgvector', 'Streamlit'],
     badge: '🐍 Python',
     accent: '#06b6d4',
-    link: 'https://github.com/Tatopapi3/NegotiatiorIQ',
+    link: 'https://negotiatorai.streamlit.app',
   },
 ]
 
