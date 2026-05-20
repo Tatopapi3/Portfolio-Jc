@@ -44,6 +44,17 @@ const projects = [
     badge: '💼 Client',
     accent: '#10b981',
   },
+  {
+    name: 'NegotiateIQ',
+    year: '2026',
+    type: 'Personal Project',
+    headline: 'Know your worth.\nAsk for more.\nGet it.',
+    desc: 'AI salary negotiation coach powered by Claude + real market data. RAG pipeline over NYC job descriptions delivers counter-offer ranges, word-for-word negotiation emails, and leverage points.',
+    tech: ['Python', 'FastAPI', 'Claude API', 'Supabase', 'pgvector', 'Streamlit'],
+    badge: '🐍 Python',
+    accent: '#06b6d4',
+    link: 'https://github.com/Tatopapi3/NegotiatiorIQ',
+  },
 ]
 
 const FOG = 'radial-gradient(ellipse 60% 55% at 50% 45%, rgba(251,191,36,0.18) 0%, rgba(245,158,11,0.07) 42%, transparent 74%)'
@@ -157,7 +168,7 @@ export default function ProjectsSection({ isDark = true }: { isDark?: boolean })
               <a href={p.link} target="_blank" rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 text-sm font-bold tracking-wide hover:opacity-60 transition-opacity"
                 style={{ color: p.accent }}>
-                Visit live site →
+                {p.link.includes('github.com') ? 'View on GitHub →' : 'Visit live site →'}
               </a>
             )}
           </div>
