@@ -23,6 +23,7 @@ const projects = [
     tech: ['React', 'Node.js', 'AI Matching', 'PostgreSQL'],
     badge: '🏆 Won',
     accent: '#f59e0b',
+    link: 'https://github.com/Tatopapi3/Amplif.ai',
   },
   {
     name: 'SnowAngel',
@@ -33,6 +34,7 @@ const projects = [
     tech: ['React', 'TypeScript', 'Node.js', 'Express'],
     badge: '🏆 Won',
     accent: '#a855f7',
+    link: 'https://github.com/Tatopapi3/Snow-Angel',
   },
   {
     name: 'The Next Chapter',
@@ -43,6 +45,7 @@ const projects = [
     tech: ['HTML', 'CSS', 'JS', 'Netlify'],
     badge: '💼 Client',
     accent: '#10b981',
+    link: 'https://www.thenextchapterconcierge.co',
   },
   {
     name: 'NegotiateIQ',
