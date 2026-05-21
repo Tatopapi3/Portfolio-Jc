@@ -58,6 +58,17 @@ const projects = [
     accent: '#06b6d4',
     link: 'https://negotiatorai.streamlit.app',
   },
+  {
+    name: 'TalentLensAI',
+    year: '2026',
+    type: 'Personal Project',
+    headline: 'Know your worth.\nSee what\'s hiring.\nGet the offer.',
+    desc: 'ML resume-to-role scorer + job market trend analyzer with drift detection, prediction logging, and a live observability dashboard. Two TensorFlow models, production-grade.',
+    tech: ['Python', 'TensorFlow', 'Streamlit', 'scikit-learn'],
+    badge: '🧠 ML',
+    accent: '#8b5cf6',
+    link: 'https://talentlensai-ssuzhnwjk7kvk69k9ofc7t.streamlit.app',
+  },
 ]
 
 const FOG = 'radial-gradient(ellipse 60% 55% at 50% 45%, rgba(251,191,36,0.18) 0%, rgba(245,158,11,0.07) 42%, transparent 74%)'
