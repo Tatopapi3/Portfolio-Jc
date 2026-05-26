@@ -23,7 +23,7 @@ const projects = [
     tech: ['React', 'Node.js', 'AI Matching', 'PostgreSQL'],
     badge: '🏆 Won',
     accent: '#f59e0b',
-    link: 'https://github.com/Tatopapi3/Amplif.ai',
+    link: 'https://home-block-amplified.lovable.app',
   },
   {
     name: 'SnowAngel',

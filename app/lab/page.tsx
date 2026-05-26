@@ -44,6 +44,7 @@ const PROJECTS = [
     num: '04', year: '2026',
     title: 'Amplif.ai',
     Icon: Trophy, iconClass: 'text-yellow-400',
+    href: 'https://home-block-amplified.lovable.app',
     items: [
       'Hyperlocal NYC neighbor-connection platform',
       'Connects people by skills, hobbies and music taste',
@@ -288,11 +289,12 @@ interface ProjectCardProps {
   title: string
   Icon: React.ElementType
   iconClass: string
+  href?: string
   items: readonly string[]
   index: number
 }
 
-function ProjectCard({ num, year, title, Icon, iconClass, items, index }: ProjectCardProps) {
+function ProjectCard({ num, year, title, Icon, iconClass, href, items, index }: ProjectCardProps) {
   const ref = useRef<HTMLDivElement>(null)
   const inView = useInView(ref, { once: true, margin: '-60px' })
 
@@ -347,12 +349,25 @@ function ProjectCard({ num, year, title, Icon, iconClass, items, index }: Projec
         ))}
       </ul>
 
-      <p
-        className="text-[#DEDBC8]/30 group-hover:text-[#DEDBC8]/70 text-xs tracking-[0.15em] uppercase transition-colors duration-300 pt-2 border-t border-[#DEDBC8]/8"
-        style={{ fontFamily: "'Almarai', sans-serif" }}
-      >
-        View Project →
-      </p>
+      {href ? (
+        <a
+          href={href}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-[#DEDBC8]/30 group-hover:text-[#DEDBC8]/70 text-xs tracking-[0.15em] uppercase transition-colors duration-300 pt-2 border-t border-[#DEDBC8]/8"
+          style={{ fontFamily: "'Almarai', sans-serif" }}
+          onClick={(e) => e.stopPropagation()}
+        >
+          View Project →
+        </a>
+      ) : (
+        <p
+          className="text-[#DEDBC8]/30 group-hover:text-[#DEDBC8]/70 text-xs tracking-[0.15em] uppercase transition-colors duration-300 pt-2 border-t border-[#DEDBC8]/8"
+          style={{ fontFamily: "'Almarai', sans-serif" }}
+        >
+          View Project →
+        </p>
+      )}
     </motion.div>
   )
 }
@@ -432,6 +447,7 @@ function Projects() {
             title={p.title}
             Icon={p.Icon}
             iconClass={p.iconClass}
+            href={'href' in p ? p.href : undefined}
             items={p.items}
             index={i}
           />
