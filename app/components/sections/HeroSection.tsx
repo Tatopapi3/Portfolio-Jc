@@ -272,7 +272,6 @@ export default function HeroSection({
             const ex = nx + hs * 0.28
             const eH = hs * 1.08
             ctx.fillStyle = fill
-            // Art Deco setbacks: [cumulative height fraction, half-width fraction]
             const steps: [number,number][] = [
               [0.00, 0.155],[0.18, 0.155],
               [0.18, 0.112],[0.38, 0.112],
@@ -285,9 +284,7 @@ export default function HeroSection({
               const [y0, w0] = steps[i], [y1] = steps[i+1]
               ctx.fillRect(ex - eH*w0, baseY - eH*y1, eH*w0*2, eH*(y1-y0))
             }
-            // Mooring mast
             ctx.fillRect(ex - eH*0.013, baseY - eH*0.96, eH*0.026, eH*0.06)
-            // Spire
             ctx.beginPath()
             ctx.moveTo(ex - eH*0.009, baseY - eH*0.96)
             ctx.lineTo(ex, baseY - eH*1.08)
@@ -300,13 +297,9 @@ export default function HeroSection({
             const sx = nx - hs * 0.38
             const sH = hs * 0.86
             ctx.fillStyle = fill
-            // Star-fort base (wide flat)
             ctx.fillRect(sx - sH*0.28, baseY - sH*0.05, sH*0.56, sH*0.05)
-            // Pedestal tier 1
             ctx.fillRect(sx - sH*0.22, baseY - sH*0.17, sH*0.44, sH*0.12)
-            // Pedestal tier 2
             ctx.fillRect(sx - sH*0.15, baseY - sH*0.35, sH*0.30, sH*0.18)
-            // Statue robe (flowing, tapered)
             ctx.beginPath()
             ctx.moveTo(sx - sH*0.15, baseY - sH*0.35)
             ctx.lineTo(sx - sH*0.13, baseY - sH*0.44)
@@ -317,11 +310,9 @@ export default function HeroSection({
             ctx.lineTo(sx + sH*0.13,  baseY - sH*0.44)
             ctx.lineTo(sx + sH*0.15,  baseY - sH*0.35)
             ctx.closePath(); ctx.fill()
-            // Head
             ctx.beginPath()
             ctx.arc(sx, baseY - sH*0.76, sH*0.058, 0, Math.PI*2)
             ctx.fill()
-            // Crown — 7 radiating rays
             ctx.strokeStyle = bright
             ctx.lineWidth = Math.max(1.0, sH*0.022)
             for (let k = -3; k <= 3; k++) {
@@ -331,17 +322,14 @@ export default function HeroSection({
               ctx.lineTo(sx + Math.cos(ang)*sH*0.125, baseY - sH*0.76 + Math.sin(ang)*sH*0.125)
               ctx.stroke()
             }
-            // Raised torch arm (right side, angled up)
             ctx.strokeStyle = fill
             ctx.lineWidth = Math.max(1.5, sH*0.042)
             ctx.beginPath()
             ctx.moveTo(sx + sH*0.052, baseY - sH*0.68)
             ctx.lineTo(sx + sH*0.21,  baseY - sH*0.90)
             ctx.stroke()
-            // Torch handle
             ctx.fillStyle = fill
             ctx.fillRect(sx + sH*0.195, baseY - sH*0.925, sH*0.028, sH*0.06)
-            // Torch flame
             const flame = ctx.createRadialGradient(sx+sH*0.21, baseY-sH*1.00, 0, sx+sH*0.21, baseY-sH*1.00, sH*0.055)
             flame.addColorStop(0,   `rgba(255,220,40,${alpha.toFixed(2)})`)
             flame.addColorStop(0.5, `rgba(245,140,20,${(alpha*0.7).toFixed(2)})`)
@@ -350,7 +338,6 @@ export default function HeroSection({
             ctx.fillRect(sx+sH*0.155, baseY-sH*1.055, sH*0.11, sH*0.11)
             ctx.fillStyle = fill
           }
-
         }
       }
 
@@ -364,7 +351,6 @@ export default function HeroSection({
         ctx.fillStyle = wy < waterY + R * 0.9 ? `rgba(115,185,255,${a.toFixed(3)})` : `rgba(55,95,155,${(a*0.4).toFixed(3)})`
         ctx.fillRect(0, wy, W, 2)
       }
-      // Surface edge glow
       const edge = ctx.createLinearGradient(0, waterY-2, 0, waterY+20)
       edge.addColorStop(0,'rgba(130,200,255,0.24)'); edge.addColorStop(1,'transparent')
       ctx.fillStyle=edge; ctx.fillRect(0,waterY-2,W,22)
@@ -420,7 +406,7 @@ export default function HeroSection({
         }
       }
 
-      // ── "FLUSHING MEADOWS · QUEENS, NY" in the pool ──────
+      // ── "QUEENS NYC" in the pool ──────
       ctx.save()
       ctx.font=`700 ${Math.max(12,Math.round(H*.016))}px var(--font-outfit,system-ui)`
       ctx.textAlign='center'; ctx.letterSpacing='0.32em'
@@ -438,11 +424,9 @@ export default function HeroSection({
 
   return (
     <section className="snap-section flex items-center justify-center">
-      {/* Canvas: invert+hue-rotate in light mode to flip dark→light while preserving colors */}
       <canvas ref={canvasRef} className="absolute inset-0 w-full h-full"
         style={{ transition: 'filter 1200ms ease', filter: warm ? 'invert(1) hue-rotate(180deg) sepia(0.15) brightness(0.92)' : 'none' }} />
 
-      {/* Subtle warm atmospheric glow on top — not opaque */}
       <div
         className="absolute inset-0 pointer-events-none transition-opacity duration-[1200ms]"
         style={{
@@ -465,9 +449,13 @@ export default function HeroSection({
                 {l}
               </a>
             ))}
+            <a href="/lab"
+              className="transition-colors duration-700 hover:opacity-80"
+              style={{ color: warm ? 'rgba(100,60,5,0.4)' : 'rgba(255,255,255,0.17)' }}>
+              Lab ✦
+            </a>
           </div>
 
-          {/* Theme toggle */}
           <button
             onClick={() => setIsDark(d => !d)}
             className="w-8 h-8 rounded-full flex items-center justify-center transition-all duration-700 hover:scale-110"

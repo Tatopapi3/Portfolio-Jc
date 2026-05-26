@@ -84,3 +84,21 @@ body {
 .animate-fade-up { animation: fade-up 0.8s ease forwards; }
 .animate-float   { animation: float 5s ease-in-out infinite; }
 .animate-word-in { animation: word-in 0.75s cubic-bezier(0.16,1,0.3,1) forwards; }
+
+/* ─── /lab page — noise overlay ────────────────────────────────────────── */
+.lab-noise-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 500;
+  opacity: 0.055;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+  background-repeat: repeat;
+}
+
+/* ─── /lab page — bg-noise texture utility ──────────────────────────────── */
+.lab-bg-noise {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+}
