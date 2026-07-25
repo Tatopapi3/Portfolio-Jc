@@ -1,8 +1,8 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
-import { motion, type Transition } from 'framer-motion'
-import { Brain, Trophy, Snowflake, Building2, Wand2, Zap, FileSearch, Mail } from 'lucide-react'
+import { useState } from 'react'
+import { motion, AnimatePresence, type Transition } from 'framer-motion'
+import { Brain, Trophy, Snowflake, Building2, Wand2, Zap, FileSearch, Mail, Menu, X } from 'lucide-react'
 
 /* ─── Inline brand icons (not in this lucide-react build) ──────────────── */
 const GithubIcon = ({ size = 20 }: { size?: number }) => (
@@ -98,6 +98,38 @@ const PROJECTS = [
   },
 ] as const
 
+/* ─── Hero "train stops" — each swaps the background video AND the headline/
+   subtext, telling the career arc one stop at a time ─────────────────────── */
+const STOPS = [
+  {
+    video: 'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260702_081127_0992a171-d3c6-4978-8213-0ec5df8b6d63.mp4',
+    title: 'Where It Started',
+    subtitle: '6 years placing software engineers and AI practitioners at high-growth startups — technical recruiter by day, always building something on the side.',
+  },
+  {
+    video: 'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260702_092026_dd05b805-ea0f-40b2-8c52-332b88502592.mp4',
+    title: 'Hackathon Season',
+    subtitle: 'Amplif.ai and SnowAngel — two consecutive hackathon wins, built under pressure with strangers who became a team overnight.',
+  },
+  {
+    video: 'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260702_081042_df7202bf-bd80-4b2b-bbc6-1f09ba2870e9.mp4',
+    title: 'Building in Production',
+    subtitle: 'VibePath, Clean Hour, TalentFlow, Property-OS, Moundvisit AI — five real, shipped products, not portfolio filler.',
+  },
+  {
+    video: 'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260702_080959_4cac5234-3573-464e-a5b7-76b94b8a7d61.mp4',
+    title: "What's Next",
+    subtitle: "Open to AI developer roles, freelance projects, and collaborations that push what's possible.",
+  },
+] as const
+
+const OVERLAY_PNG = 'https://soft-zoom-63098134.figma.site/_assets/v11/0b4a435b2df2747593c43d7a1c9b4578f7d8d90c.png'
+
+const NAV_LINKS = ['Projects', 'About', 'Contact']
+const STATS = ['6 Years in Tech Recruiting', '7 Projects Shipped', '2× Hackathon Winner', 'NYC-Based']
+
+const goToEmail = () => { window.location.href = 'mailto:juan.fernandez@pursuit.org' }
+
 /* ─── Animation helpers ─────────────────────────────────────────────────── */
 const fadeUp = (delay = 0) => ({
   initial:    { opacity: 0, y: 40 },
@@ -110,72 +142,20 @@ const fadeUp = (delay = 0) => ({
    PAGE
 ═══════════════════════════════════════════════════════════════════════════ */
 export default function Home() {
-  const videoRef    = useRef<HTMLVideoElement>(null)
-  const rafRef      = useRef<number>(0)
-  const fadingOutRef= useRef(false)
+  const [activeVideo, setActiveVideo] = useState(0)
+  const [isTransitioning, setIsTransitioning] = useState(false)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
-  /* ── Video fade system ─────────────────────────────────────────────────── */
-  useEffect(() => {
-    const video = videoRef.current
-    if (!video) return
+  // "Deep Woods" (index 2) is the one video where the hero content flips to a dark palette
+  const isDark = activeVideo === 2
+  const heroColor = isDark ? '#182C41' : '#ffffff'
 
-    const cancelFade = () => {
-      if (rafRef.current) { cancelAnimationFrame(rafRef.current); rafRef.current = 0 }
-    }
-
-    const startFade = (to: number, onDone?: () => void) => {
-      cancelFade()
-      const from = parseFloat(video.style.opacity ?? '0')
-      const start = performance.now()
-      const duration = 500
-      const tick = (now: number) => {
-        const p = Math.min((now - start) / duration, 1)
-        video.style.opacity = String(from + (to - from) * p)
-        if (p < 1) rafRef.current = requestAnimationFrame(tick)
-        else { rafRef.current = 0; onDone?.() }
-      }
-      rafRef.current = requestAnimationFrame(tick)
-    }
-
-    video.style.opacity = '0'
-
-    const onCanPlay = () => {
-      if (!fadingOutRef.current) startFade(1)
-    }
-
-    const onTimeUpdate = () => {
-      if (!fadingOutRef.current &&
-          !isNaN(video.duration) && video.duration > 0 &&
-          video.currentTime >= video.duration - 0.55) {
-        fadingOutRef.current = true
-        startFade(0)
-      }
-    }
-
-    const onEnded = () => {
-      video.style.opacity = '0'
-      cancelFade()
-      fadingOutRef.current = false
-      setTimeout(() => {
-        video.currentTime = 0
-        video.play().catch(() => {})
-        startFade(1)
-      }, 100)
-    }
-
-    video.addEventListener('canplay',    onCanPlay)
-    video.addEventListener('timeupdate', onTimeUpdate)
-    video.addEventListener('ended',      onEnded)
-
-    if (video.readyState >= 3) onCanPlay()
-
-    return () => {
-      video.removeEventListener('canplay',    onCanPlay)
-      video.removeEventListener('timeupdate', onTimeUpdate)
-      video.removeEventListener('ended',      onEnded)
-      cancelFade()
-    }
-  }, [])
+  const switchVideo = (i: number) => {
+    if (i === activeVideo || isTransitioning) return
+    setActiveVideo(i)
+    setIsTransitioning(true)
+    setTimeout(() => setIsTransitioning(false), 1000)
+  }
 
   return (
     <>
@@ -247,138 +227,238 @@ export default function Home() {
           mask-composite: exclude;
           pointer-events: none;
         }
+
+        @keyframes train-bob {
+          0%, 100% { transform: translateY(0) scale(1.03); }
+          50%      { transform: translateY(-6px) scale(1.03); }
+        }
+        .overlay-bob { animation: train-bob 3s ease-in-out infinite; }
       `}</style>
 
-      {/* ── Sticky video background (spans all sections) ─────────────────── */}
-      <div className="fixed inset-0 z-0">
-        <video
-          ref={videoRef}
-          src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260418_080021_d598092b-c4c2-4e53-8e46-94cf9064cd50.mp4"
-          autoPlay
-          muted
-          playsInline
-          className="w-full h-full object-cover"
-          style={{ opacity: 0 }}
-        />
-      </div>
-
       {/* ══════════════════════════════════════════════════════════════════
-          SECTION 1 — HERO
+          HERO — fullscreen cinematic, train-stop video crossfade
       ══════════════════════════════════════════════════════════════════ */}
-      <section className="relative min-h-screen flex flex-col">
+      <section className="relative w-full h-screen overflow-hidden bg-black">
+        {/* Background videos — only the active stop's video is visible */}
+        {STOPS.map((s, i) => (
+          <video
+            key={s.video}
+            src={s.video}
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out"
+            style={{ opacity: activeVideo === i ? 1 : 0 }}
+          />
+        ))}
+
         {/* Scrim */}
-        <div className="absolute inset-0 z-0" style={{ background: 'rgba(0,0,0,0.22)' }} />
+        <div className="absolute inset-0 bg-black/25" />
 
-        {/* ── Navigation ───────────────────────────────────────────────── */}
-        <nav className="relative z-20 px-6 py-6">
-          <div className="liquid-glass rounded-full px-6 py-3 flex items-center justify-between max-w-5xl mx-auto">
-            <span
-              className="text-white text-xl"
-              style={{ fontFamily: "'Instrument Serif', serif", fontStyle: 'italic' }}
-            >
-              JF
-            </span>
+        {/* Foreground parallax overlay */}
+        <img
+          src={OVERLAY_PNG}
+          alt=""
+          aria-hidden="true"
+          className="overlay-bob absolute inset-0 w-full h-full object-cover pointer-events-none"
+        />
 
-            <div className="hidden md:flex items-center gap-8">
-              {['About', 'Projects', 'Contact'].map(link => (
-                <a
-                  key={link}
-                  href="#"
-                  className="text-white/70 hover:text-white text-sm transition-colors"
+        {/* Content layer */}
+        <div className="relative z-10 flex flex-col h-full">
+          {/* ── Navigation ───────────────────────────────────────────────── */}
+          <nav className="px-6 sm:px-10 py-6">
+            <div className="flex items-center justify-between max-w-5xl mx-auto">
+              <span
+                className="text-white text-xl sm:text-2xl"
+                style={{ fontFamily: "'Instrument Serif', serif", fontStyle: 'italic' }}
+              >
+                Juan Fernandez
+              </span>
+
+              {/* Desktop nav pill */}
+              <div className="hidden md:flex liquid-glass rounded-full px-6 py-3 items-center gap-8">
+                {NAV_LINKS.map(link => (
+                  <a
+                    key={link}
+                    href={`#${link.toLowerCase()}`}
+                    className="text-white/90 hover:text-white text-sm transition-colors"
+                    style={{ fontFamily: 'system-ui, sans-serif' }}
+                  >
+                    {link}
+                  </a>
+                ))}
+                <button
+                  onClick={goToEmail}
+                  className="bg-white text-black rounded-full px-5 py-2 text-sm font-medium hover:bg-white/90 transition-colors"
+                  style={{ fontFamily: 'system-ui, sans-serif' }}
                 >
-                  {link}
-                </a>
-              ))}
+                  Get In Touch
+                </button>
+              </div>
+
+              {/* Mobile hamburger */}
+              <button
+                onClick={() => setMobileMenuOpen(o => !o)}
+                aria-label="Toggle menu"
+                className="md:hidden liquid-glass rounded-full p-3"
+              >
+                <div className="relative w-5 h-5">
+                  <Menu
+                    size={20}
+                    className="absolute inset-0 text-white transition-all duration-300"
+                    style={{
+                      transform: mobileMenuOpen ? 'rotate(90deg) scale(0.75)' : 'rotate(0deg) scale(1)',
+                      opacity:   mobileMenuOpen ? 0 : 1,
+                    }}
+                  />
+                  <X
+                    size={20}
+                    className="absolute inset-0 text-white transition-all duration-300"
+                    style={{
+                      transform: mobileMenuOpen ? 'rotate(0deg) scale(1)' : 'rotate(-90deg) scale(0.75)',
+                      opacity:   mobileMenuOpen ? 1 : 0,
+                    }}
+                  />
+                </div>
+              </button>
+            </div>
+          </nav>
+
+          {/* ── Mobile menu overlay ──────────────────────────────────────── */}
+          <AnimatePresence>
+            {mobileMenuOpen && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
+                className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex flex-col items-center justify-center gap-8"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                {NAV_LINKS.map((link, i) => (
+                  <motion.a
+                    key={link}
+                    href={`#${link.toLowerCase()}`}
+                    initial={{ opacity: 0, y: 16 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 16 }}
+                    transition={{ delay: 0.1 + i * 0.05, duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
+                    className="text-white text-3xl"
+                    style={{ fontFamily: "'Instrument Serif', serif", fontStyle: 'italic' }}
+                  >
+                    {link}
+                  </motion.a>
+                ))}
+                <motion.button
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.9 }}
+                  transition={{ delay: 0.1 + NAV_LINKS.length * 0.05, duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
+                  onClick={(e) => { e.stopPropagation(); goToEmail() }}
+                  className="bg-white text-black rounded-full px-8 py-3 font-medium mt-4"
+                  style={{ fontFamily: 'system-ui, sans-serif' }}
+                >
+                  Get In Touch
+                </motion.button>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* ── Hero content ─────────────────────────────────────────────── */}
+          <div
+            className="flex-1 flex flex-col items-center justify-center px-6 text-center transition-colors duration-700"
+            style={{ color: heroColor }}
+          >
+            {/* Badge */}
+            <div className="liquid-glass rounded-full px-4 py-2 mb-8">
+              <span className="text-sm" style={{ fontFamily: 'system-ui, sans-serif', color: heroColor, opacity: 0.85 }}>
+                AI Developer &amp; Technical Recruiter · NYC
+              </span>
             </div>
 
-            <button className="liquid-glass rounded-full px-6 py-2 text-white text-sm hover:bg-white/5 transition-colors">
-              Let&apos;s Talk
-            </button>
-          </div>
-        </nav>
-
-        {/* ── Hero content ─────────────────────────────────────────────── */}
-        <div
-          className="relative z-10 flex-1 flex flex-col items-center justify-center px-6 py-12 text-center"
-          style={{ transform: 'translateY(-10%)' }}
-        >
-          {/* Badge */}
-          <div className="liquid-glass rounded-full px-4 py-2 mb-8">
-            <span className="text-white/80 text-sm">
-              AI Developer &amp; Technical Recruiter · NYC
-            </span>
-          </div>
-
-          {/* Heading */}
-          <h1
-            className="text-6xl md:text-7xl lg:text-8xl text-white tracking-tight mb-6"
-            style={{ fontFamily: "'Instrument Serif', serif", fontStyle: 'italic' }}
-          >
-            Where Your Mind<br />
-            Meets the Impossible
-          </h1>
-
-          {/* Subheading */}
-          <p className="text-white/70 text-base max-w-lg mb-10 font-light">
-            Building AI-powered products at the intersection of recruiting
-            expertise and hands-on development.
-          </p>
-
-          {/* Project cards grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-2xl w-full mb-10">
-            {PROJECTS.map(p => (
-              <div
-                key={p.title}
-                className="liquid-glass rounded-2xl p-5 text-left hover:bg-white/5 transition-all cursor-pointer"
+            {/* Heading + subtext — swap per stop */}
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeVideo}
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -12 }}
+                transition={{ duration: 0.45, ease: 'easeOut' }}
+                className="flex flex-col items-center"
               >
-                <div className="mb-2">{p.icon}</div>
-                <p className="text-white font-semibold text-sm">{p.title}</p>
-                <p className="text-white/60 text-xs mt-1">{p.descHero}</p>
-                <p className={`${p.iconColor} text-xs mt-2`}>{p.tag}</p>
-              </div>
-            ))}
+                <h1
+                  className="text-4xl sm:text-5xl md:text-7xl lg:text-[5.5rem] leading-[1.1] tracking-tight mb-6 max-w-4xl"
+                  style={{ fontFamily: "'Instrument Serif', serif", fontStyle: 'italic' }}
+                >
+                  {STOPS[activeVideo].title}
+                </h1>
+
+                <p
+                  className="text-base max-w-xl mb-10 font-light leading-relaxed"
+                  style={{ fontFamily: 'system-ui, sans-serif', color: heroColor, opacity: 0.75 }}
+                >
+                  {STOPS[activeVideo].subtitle}
+                </p>
+              </motion.div>
+            </AnimatePresence>
+
+            {/* Primary CTA */}
+            <button
+              onClick={goToEmail}
+              className="liquid-glass rounded-full px-10 py-4 font-medium text-base hover:bg-white/10 transition-colors mb-10"
+              style={{ fontFamily: 'system-ui, sans-serif', color: heroColor }}
+            >
+              Let&apos;s Build Something →
+            </button>
+
+            {/* Train-stop switcher */}
+            <div className="flex flex-wrap justify-center gap-4 sm:gap-6">
+              {STOPS.map((s, i) => {
+                const active = activeVideo === i
+                return (
+                  <button
+                    key={s.title}
+                    onClick={() => switchVideo(i)}
+                    className="text-xs sm:text-sm pb-1 border-b-2 transition-all duration-300"
+                    style={{
+                      fontFamily: 'system-ui, sans-serif',
+                      color: heroColor,
+                      opacity: active ? 1 : 0.5,
+                      borderColor: active ? heroColor : 'transparent',
+                      fontWeight: active ? 700 : 400,
+                    }}
+                    onMouseEnter={e => { if (!active) e.currentTarget.style.opacity = '0.8' }}
+                    onMouseLeave={e => { if (!active) e.currentTarget.style.opacity = '0.5' }}
+                  >
+                    {s.title}
+                  </button>
+                )
+              })}
+            </div>
           </div>
 
-          {/* Primary CTA */}
-          <button
-            className="liquid-glass rounded-full px-10 py-4 text-white font-medium text-base hover:bg-white/10 transition-colors"
-            onClick={() => { window.location.href = 'mailto:juan.fernandez@pursuit.org' }}
-          >
-            Let&apos;s Build Something →
-          </button>
-        </div>
-
-        {/* Social footer */}
-        <div className="relative z-10 flex justify-center gap-4 pb-6">
-          {[
-            { Icon: GithubIcon,   href: 'https://github.com/Tatopapi3' },
-            { Icon: LinkedinIcon, href: 'https://www.linkedin.com/in/juan-fernandez-336977172/' },
-            { Icon: Mail,         href: 'mailto:juan.fernandez@pursuit.org' },
-          ].map(({ Icon, href }) => (
-            <a
-              key={href}
-              href={href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="liquid-glass rounded-full p-4 text-white/70 hover:text-white hover:bg-white/5 transition-all"
+          {/* ── Bottom stats ─────────────────────────────────────────────── */}
+          <div className="pb-8 px-6 flex justify-center">
+            <div
+              className="flex items-center gap-3 sm:gap-4 flex-wrap justify-center text-white/70 text-xs sm:text-sm"
+              style={{ fontFamily: 'system-ui, sans-serif' }}
             >
-              <Icon size={20} />
-            </a>
-          ))}
-        </div>
-
-        {/* Scroll hint */}
-        <div className="relative z-10 flex justify-center pb-8">
-          <span className="text-white/40 text-xs animate-bounce">Scroll to explore ↓</span>
+              {STATS.map((s, i) => (
+                <span key={s} className="flex items-center gap-3 sm:gap-4">
+                  {s}
+                  {i < STATS.length - 1 && <span className="hidden sm:inline text-white/30">|</span>}
+                </span>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
       {/* ══════════════════════════════════════════════════════════════════
           SECTION 2 — PROJECTS DEEP DIVE
       ══════════════════════════════════════════════════════════════════ */}
-      <section className="relative min-h-screen">
-        <div className="absolute inset-0 z-0 bg-black/60" />
-
+      <section id="projects" className="relative min-h-screen bg-black">
         <div className="relative z-10 max-w-4xl mx-auto px-8 py-24">
           <motion.p
             {...fadeUp(0)}
@@ -443,9 +523,7 @@ export default function Home() {
       {/* ══════════════════════════════════════════════════════════════════
           SECTION 3 — ABOUT
       ══════════════════════════════════════════════════════════════════ */}
-      <section className="relative min-h-screen flex items-center">
-        <div className="absolute inset-0 z-0 bg-black/70" />
-
+      <section id="about" className="relative min-h-screen bg-black flex items-center">
         <div className="relative z-10 max-w-2xl mx-auto px-8 py-24 text-center w-full">
           <motion.p
             {...fadeUp(0)}
@@ -489,9 +567,9 @@ export default function Home() {
                 className="text-5xl text-white"
                 style={{ fontFamily: "'Instrument Serif', serif", fontStyle: 'italic' }}
               >
-                4
+                7
               </p>
-              <p className="text-white/50 text-sm mt-1">AI Projects in Production</p>
+              <p className="text-white/50 text-sm mt-1">Projects Shipped</p>
             </div>
           </motion.div>
         </div>
@@ -500,7 +578,7 @@ export default function Home() {
       {/* ══════════════════════════════════════════════════════════════════
           SECTION 4 — CTA
       ══════════════════════════════════════════════════════════════════ */}
-      <section className="relative min-h-screen bg-black flex items-center justify-center">
+      <section id="contact" className="relative min-h-screen bg-black flex items-center justify-center">
         <div className="max-w-xl mx-auto px-8 text-center flex flex-col items-center">
           <motion.h2
             {...fadeUp(0)}
@@ -524,7 +602,7 @@ export default function Home() {
           >
             <button
               className="liquid-glass-strong rounded-full px-8 py-4 text-white font-medium hover:bg-white/10 transition-colors"
-              onClick={() => { window.location.href = 'mailto:juan.fernandez@pursuit.org' }}
+              onClick={goToEmail}
             >
               Get In Touch →
             </button>
