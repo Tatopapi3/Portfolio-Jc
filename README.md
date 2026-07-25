@@ -21,6 +21,7 @@ problem/solution/features writeup for that cycle, kept in this repo.
 
 - **`/`** — main landing page. The hero is a fullscreen cinematic "train stops" experience: switching between 4 stops crossfades the background video *and* swaps the headline/subtext, walking through the career arc one stop at a time — **Where It Started** (technical recruiting) → **Hackathon Season** (Amplif.ai + SnowAngel wins) → **Building in Production** (shipped projects) → **What's Next**. Below the hero: a projects deep-dive, an about section, and a contact CTA.
 - **`/lab`** — an alternate, more editorial experience: full-page scroll sections (Hero, About, Projects, Skills, Experience, Contact) with a different visual language (Instrument Serif + Almarai type, film-grain texture, scroll-triggered reveals).
+- **`/experiments`** — a gallery of earlier hero prototypes kept around rather than deleted: a dark/light toggle (canvas blob animation vs. a Three.js particle sphere), a hand-rolled canvas aurora animation, and a mouse-reactive Three.js particle orb.
 
 ## Other projects showcased
 
@@ -36,8 +37,7 @@ builds above:
 - [Next.js 16](https://nextjs.org/) (App Router) + React 19 + TypeScript
 - [Tailwind CSS 4](https://tailwindcss.com/)
 - [Framer Motion](https://www.framer.com/motion/) — scroll-triggered animation and page transitions
-- [GSAP](https://gsap.com/) + [Lenis](https://lenis.darkroom.engineering/) — smooth scrolling
-- [Three.js](https://threejs.org/) + [Vanta](https://www.vantajs.com/) — animated background effects
+- [Three.js](https://threejs.org/) — the particle-sphere and particle-orb effects on `/experiments`
 - [lucide-react](https://lucide.dev/) for icons
 
 ## Getting started
@@ -47,8 +47,9 @@ npm install
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) for the main page, or
-[http://localhost:3000/lab](http://localhost:3000/lab) for the alternate experience.
+Open [http://localhost:3000](http://localhost:3000) for the main page,
+[http://localhost:3000/lab](http://localhost:3000/lab) for the alternate experience, or
+[http://localhost:3000/experiments](http://localhost:3000/experiments) for the hero prototypes.
 
 ## Deployment
 

@@ -125,7 +125,12 @@ const STOPS = [
 
 const OVERLAY_PNG = 'https://soft-zoom-63098134.figma.site/_assets/v11/0b4a435b2df2747593c43d7a1c9b4578f7d8d90c.png'
 
-const NAV_LINKS = ['Projects', 'About', 'Contact']
+const NAV_LINKS = [
+  { label: 'Projects', href: '#projects' },
+  { label: 'About', href: '#about' },
+  { label: 'Contact', href: '#contact' },
+  { label: 'Experiments', href: '/experiments' },
+]
 const STATS = ['6 Years in Tech Recruiting', '7 Projects Shipped', '2× Hackathon Winner', 'NYC-Based']
 
 const goToEmail = () => { window.location.href = 'mailto:juan.fernandez@pursuit.org' }
@@ -280,12 +285,12 @@ export default function Home() {
               <div className="hidden md:flex liquid-glass rounded-full px-6 py-3 items-center gap-8">
                 {NAV_LINKS.map(link => (
                   <a
-                    key={link}
-                    href={`#${link.toLowerCase()}`}
+                    key={link.label}
+                    href={link.href}
                     className="text-white/90 hover:text-white text-sm transition-colors"
                     style={{ fontFamily: 'system-ui, sans-serif' }}
                   >
-                    {link}
+                    {link.label}
                   </a>
                 ))}
                 <button
@@ -338,8 +343,8 @@ export default function Home() {
               >
                 {NAV_LINKS.map((link, i) => (
                   <motion.a
-                    key={link}
-                    href={`#${link.toLowerCase()}`}
+                    key={link.label}
+                    href={link.href}
                     initial={{ opacity: 0, y: 16 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 16 }}
@@ -347,7 +352,7 @@ export default function Home() {
                     className="text-white text-3xl"
                     style={{ fontFamily: "'Instrument Serif', serif", fontStyle: 'italic' }}
                   >
-                    {link}
+                    {link.label}
                   </motion.a>
                 ))}
                 <motion.button

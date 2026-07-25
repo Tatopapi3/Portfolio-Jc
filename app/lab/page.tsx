@@ -192,6 +192,12 @@ function Navbar() {
             {label}
           </button>
         ))}
+        <a
+          href="/experiments"
+          className="text-[#DEDBC8]/40 hover:text-[#DEDBC8] text-xs tracking-[0.2em] uppercase transition-colors"
+        >
+          Experiments
+        </a>
       </div>
 
       <button
