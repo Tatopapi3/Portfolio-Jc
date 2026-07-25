@@ -6,31 +6,30 @@ Personal developer portfolio for Juan Fernandez — AI developer & technical rec
 
 ## Cycle builds
 
-Four standalone projects. Each row links to the real code repo and live app;
-the "Case study" column links to a one-page problem/solution/features writeup
-for that cycle, kept in this repo.
+Four standalone projects, one per Pursuit fellowship cycle. Each row links to
+the real code repo and live app; the "Case study" column links to a one-page
+problem/solution/features writeup for that cycle, kept in this repo.
 
 | Cycle | Project | What it does | Live | Case study |
 |---|---|---|---|---|
-| 1 | [VibePath](https://github.com/Tatopapi3/VibePath) | AI app builder paired with a coding curriculum | [Live](https://vibepath-olive.vercel.app) | [cycle-1/](cycle-1/README.md) |
-| 2 | [Clean Hour](https://github.com/Tatopapi3/clean-hour) | Real-time grid carbon intensity + pricing across 3 US grids | [Live](https://clean-hour.vercel.app) | [cycle-2/](cycle-2/README.md) |
-| 3 | [TalentFlow](https://github.com/Tatopapi3/talentflow-agent) | Advisory AI agent that pre-screens resumes against a job description | — | [cycle-3/](cycle-3/README.md) |
-| 4 | [Property-OS](https://github.com/MITRAKER/PROPERTY-OS) | Real-estate command center — CSV leads to a ranked morning briefing | [Live](https://property-os-morning-briefing.property-os.workers.dev) | [cycle-4/](cycle-4/README.md) |
+| 1 | [VibePath](https://github.com/Tatopapi3/VibePath) | Closes the "AI can generate it" vs. "I actually understand it" gap — builds an app from a prompt, then teaches the concepts behind it | [Live](https://vibepath-olive.vercel.app) | [cycle-1/](cycle-1/README.md) |
+| 2 | [Clean Hour](https://github.com/Tatopapi3/clean-hour) | Shows when clean energy is actually worth it — combines real-time grid carbon intensity with live electricity pricing across CA, TX, and NY | [Live](https://clean-hour.vercel.app) | [cycle-2/](cycle-2/README.md) |
+| 3 | [TalentFlow](https://github.com/Tatopapi3/talentflow-agent) | Advisory resume-screening agent with a mandatory human checkpoint before any reject — cites evidence, never auto-rejects a candidate | — (runs locally) | [cycle-3/](cycle-3/README.md) |
+| 4 | [Property-OS](https://github.com/MITRAKER/PROPERTY-OS) | Real-estate command center — turns a messy CSV lead list into a ranked, evidence-backed "who to contact today" briefing | [Live](https://property-os-morning-briefing.property-os.workers.dev) | [cycle-4/](cycle-4/README.md) |
 
 ## Pages
 
 - **`/`** — main landing page. The hero is a fullscreen cinematic "train stops" experience: switching between 4 stops crossfades the background video *and* swaps the headline/subtext, walking through the career arc one stop at a time — **Where It Started** (technical recruiting) → **Hackathon Season** (Amplif.ai + SnowAngel wins) → **Building in Production** (shipped projects) → **What's Next**. Below the hero: a projects deep-dive, an about section, and a contact CTA.
 - **`/lab`** — an alternate, more editorial experience: full-page scroll sections (Hero, About, Projects, Skills, Experience, Contact) with a different visual language (Instrument Serif + Almarai type, film-grain texture, scroll-triggered reveals).
 
-## Projects showcased
+## Other projects showcased
+
+The site's Projects section also features work outside the four cycle
+builds above:
 
 - **Amplif.ai** — hyperlocal NYC neighbor-connection platform, winner of 2 consecutive hackathons
 - **SnowAngel** — accessibility-first snow removal marketplace, hackathon winner
-- **Property-OS** — real-estate command center turning CSV leads into a ranked morning briefing (Cloudflare Workers, D1, Leaflet, NYC Open Data)
-- **VibePath** — AI app builder paired with a structured coding curriculum (Next.js, Claude API, Supabase)
-- **Clean Hour** — real-time grid carbon intensity + electricity pricing across 3 US grids (Next.js, EIA Open Data, PWA)
-- **TalentFlow** — advisory AI agent that pre-screens resumes against a job description, citing evidence for every match (Python, Claude API, Strands Agents)
-- **Moundvisit AI** — AI baseball mechanics coaching (Next.js, Claude API, Supabase, Vercel)
+- **Moundvisit AI** — AI baseball mechanics coaching for developing pitchers (Next.js, Claude API, Supabase, Vercel)
 
 ## Tech stack
 
