@@ -4,6 +4,17 @@
 
 Personal developer portfolio for Juan Fernandez — AI developer & technical recruiter based in NYC.
 
+## Cycle builds
+
+Four standalone projects, each with its own README (problem, features, tech stack, live link):
+
+| Cycle | Project | What it does | Live |
+|---|---|---|---|
+| 1 | [VibePath](https://github.com/Tatopapi3/VibePath) | AI app builder paired with a coding curriculum | [Live](https://vibepath-olive.vercel.app) |
+| 2 | [Clean Hour](https://github.com/Tatopapi3/clean-hour) | Real-time grid carbon intensity + pricing across 3 US grids | [Live](https://clean-hour.vercel.app) |
+| 3 | [TalentFlow](https://github.com/Tatopapi3/talentflow-agent) | Advisory AI agent that pre-screens resumes against a job description | — |
+| 4 | [Property-OS](https://github.com/MITRAKER/PROPERTY-OS) | Real-estate command center — CSV leads to a ranked morning briefing | [Live](https://property-os-morning-briefing.property-os.workers.dev) |
+
 ## Pages
 
 - **`/`** — main landing page. The hero is a fullscreen cinematic "train stops" experience: switching between 4 stops crossfades the background video *and* swaps the headline/subtext, walking through the career arc one stop at a time — **Where It Started** (technical recruiting) → **Hackathon Season** (Amplif.ai + SnowAngel wins) → **Building in Production** (shipped projects) → **What's Next**. Below the hero: a projects deep-dive, an about section, and a contact CTA.
