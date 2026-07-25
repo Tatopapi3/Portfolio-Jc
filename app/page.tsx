@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from 'react'
 import { motion, type Transition } from 'framer-motion'
-import { Brain, DollarSign, MessageCircle, Trophy, Mail } from 'lucide-react'
+import { Brain, Trophy, Snowflake, Building2, Wand2, Zap, FileSearch, Mail } from 'lucide-react'
 
 /* ─── Inline brand icons (not in this lucide-react build) ──────────────── */
 const GithubIcon = ({ size = 20 }: { size?: number }) => (
@@ -20,36 +20,6 @@ const LinkedinIcon = ({ size = 20 }: { size?: number }) => (
 /* ─── Project data ──────────────────────────────────────────────────────── */
 const PROJECTS = [
   {
-    icon:      <Brain size={20} className="text-cyan-400" />,
-    iconLarge: <Brain size={32} className="text-cyan-400" />,
-    iconColor: 'text-cyan-400/60',
-    title:     'Moundvisit AI',
-    desc:      'AI baseball mechanics coaching for developing pitchers',
-    descHero:  'Baseball mechanics coaching powered by AI',
-    tag:       'Next.js · Claude API · Supabase',
-    tags:      ['Next.js', 'Claude API', 'Supabase', 'Vercel'],
-  },
-  {
-    icon:      <DollarSign size={20} className="text-emerald-400" />,
-    iconLarge: <DollarSign size={32} className="text-emerald-400" />,
-    iconColor: 'text-emerald-400/60',
-    title:     'NegotiateIQ',
-    desc:      'Salary negotiation coach powered by multi-source RAG',
-    descHero:  'AI salary negotiation coach with multi-source RAG',
-    tag:       'FastAPI · Claude API · Supabase',
-    tags:      ['FastAPI', 'Claude API', 'Supabase', 'Streamlit'],
-  },
-  {
-    icon:      <MessageCircle size={20} className="text-purple-400" />,
-    iconLarge: <MessageCircle size={32} className="text-purple-400" />,
-    iconColor: 'text-purple-400/60',
-    title:     'HyeoTalk',
-    desc:      'AI-powered Korean language learning platform',
-    descHero:  'AI-powered Korean language learning platform',
-    tag:       'Next.js · React Native · Claude API',
-    tags:      ['Next.js', 'React Native', 'Claude API', 'Expo'],
-  },
-  {
     icon:      <Trophy size={20} className="text-yellow-400" />,
     iconLarge: <Trophy size={32} className="text-yellow-400" />,
     iconColor: 'text-yellow-400/60',
@@ -58,6 +28,73 @@ const PROJECTS = [
     descHero:  'Hyperlocal NYC neighbor-connection platform · Hackathon winner',
     tag:       'Claude API · RAG · Won 2×',
     tags:      ['Claude API', 'RAG', 'Next.js'],
+    link:      'https://home-block-amplified.lovable.app',
+  },
+  {
+    icon:      <Snowflake size={20} className="text-sky-300" />,
+    iconLarge: <Snowflake size={32} className="text-sky-300" />,
+    iconColor: 'text-sky-300/60',
+    title:     'SnowAngel',
+    desc:      'Accessibility-first snow removal marketplace — hackathon winner',
+    descHero:  'Connecting elderly & disabled neighbors with local snow-removal help',
+    tag:       'React · Node.js · Won',
+    tags:      ['React', 'TypeScript', 'Node.js', 'Express'],
+    link:      'https://github.com/Tatopapi3/Snow-Angel',
+  },
+  {
+    icon:      <Building2 size={20} className="text-orange-400" />,
+    iconLarge: <Building2 size={32} className="text-orange-400" />,
+    iconColor: 'text-orange-400/60',
+    title:     'Property-OS',
+    desc:      'Real-estate command center — CSV leads to a ranked morning briefing',
+    descHero:  'AI-ranked property leads and a live real-estate workspace',
+    tag:       'Cloudflare Workers · D1 · Leaflet',
+    tags:      ['Cloudflare Workers', 'D1', 'Leaflet', 'NYC Open Data'],
+    link:      'https://property-os-morning-briefing.property-os.workers.dev',
+  },
+  {
+    icon:      <Wand2 size={20} className="text-violet-400" />,
+    iconLarge: <Wand2 size={32} className="text-violet-400" />,
+    iconColor: 'text-violet-400/60',
+    title:     'VibePath',
+    desc:      'AI app builder paired with a structured coding curriculum',
+    descHero:  'Generate apps with AI, then learn the fundamentals behind them',
+    tag:       'Next.js · Claude API · Supabase',
+    tags:      ['Next.js', 'Claude API', 'Supabase'],
+    link:      'https://vibepath-olive.vercel.app',
+  },
+  {
+    icon:      <Zap size={20} className="text-green-400" />,
+    iconLarge: <Zap size={32} className="text-green-400" />,
+    iconColor: 'text-green-400/60',
+    title:     'Clean Hour',
+    desc:      'Real-time grid carbon intensity + pricing across 3 US grids',
+    descHero:  'Tells you when clean energy is actually worth it, by the hour',
+    tag:       'Next.js · EIA API · PWA',
+    tags:      ['Next.js', 'EIA Open Data', 'PWA'],
+    link:      'https://clean-hour.vercel.app',
+  },
+  {
+    icon:      <FileSearch size={20} className="text-rose-400" />,
+    iconLarge: <FileSearch size={32} className="text-rose-400" />,
+    iconColor: 'text-rose-400/60',
+    title:     'TalentFlow',
+    desc:      'Advisory AI agent that pre-screens resumes against a job description',
+    descHero:  'Cites evidence for every match — never auto-rejects a candidate',
+    tag:       'Python · Claude API · Strands',
+    tags:      ['Python', 'Claude API', 'Strands Agents'],
+    link:      'https://github.com/Tatopapi3/talentflow-agent',
+  },
+  {
+    icon:      <Brain size={20} className="text-cyan-400" />,
+    iconLarge: <Brain size={32} className="text-cyan-400" />,
+    iconColor: 'text-cyan-400/60',
+    title:     'Moundvisit AI',
+    desc:      'AI baseball mechanics coaching for developing pitchers',
+    descHero:  'Baseball mechanics coaching powered by AI',
+    tag:       'Next.js · Claude API · Supabase',
+    tags:      ['Next.js', 'Claude API', 'Supabase', 'Vercel'],
+    link:      'https://mound-visit-ai.vercel.app',
   },
 ] as const
 
@@ -387,9 +424,16 @@ export default function Home() {
                   ))}
                 </div>
 
-                <p className="text-white/40 hover:text-white text-sm mt-4 transition-colors w-fit cursor-pointer">
-                  View Project →
-                </p>
+                {'link' in p && p.link && (
+                  <a
+                    href={p.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-white/40 hover:text-white text-sm mt-4 transition-colors w-fit cursor-pointer inline-block"
+                  >
+                    {p.link.includes('github.com') ? 'View on GitHub →' : 'Visit live site →'}
+                  </a>
+                )}
               </div>
             </motion.div>
           ))}

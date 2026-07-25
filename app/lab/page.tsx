@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { motion, useScroll, useInView, type Transition } from 'framer-motion'
-import { Brain, DollarSign, MessageCircle, Trophy, Check, ArrowRight } from 'lucide-react'
+import { Brain, Trophy, Snowflake, Building2, Wand2, Zap, FileSearch, Check, ArrowRight } from 'lucide-react'
 
 /* ─── Constants ─────────────────────────────────────────────────────────── */
 const BG_VIDEO =
@@ -12,36 +12,6 @@ const BG_VIDEO =
 const PROJECTS = [
   {
     num: '01', year: '2026',
-    title: 'Moundvisit AI',
-    Icon: Brain, iconClass: 'text-cyan-400',
-    items: [
-      'Baseball mechanics coaching powered by AI',
-      'Smartphone video upload and analysis',
-      'Covers pitching, hitting, fielding and catching',
-    ],
-  },
-  {
-    num: '02', year: '2026',
-    title: 'NegotiateIQ',
-    Icon: DollarSign, iconClass: 'text-emerald-400',
-    items: [
-      'AI salary negotiation coach',
-      'Multi-source RAG over job descriptions',
-      'Powered by Claude API and FastAPI',
-    ],
-  },
-  {
-    num: '03', year: '2026',
-    title: 'HyeoTalk',
-    Icon: MessageCircle, iconClass: 'text-purple-400',
-    items: [
-      'AI-powered Korean language learning',
-      'AI conversation partner and grammar explainer',
-      'Competing with Duolingo',
-    ],
-  },
-  {
-    num: '04', year: '2026',
     title: 'Amplif.ai',
     Icon: Trophy, iconClass: 'text-yellow-400',
     href: 'https://home-block-amplified.lovable.app',
@@ -49,6 +19,72 @@ const PROJECTS = [
       'Hyperlocal NYC neighbor-connection platform',
       'Connects people by skills, hobbies and music taste',
       'Won 2 consecutive hackathons',
+    ],
+  },
+  {
+    num: '02', year: '2026',
+    title: 'SnowAngel',
+    Icon: Snowflake, iconClass: 'text-sky-300',
+    href: 'https://github.com/Tatopapi3/Snow-Angel',
+    items: [
+      'Accessibility-first snow removal marketplace',
+      'Connects elderly & disabled neighbors with local helpers',
+      'Hackathon winner',
+    ],
+  },
+  {
+    num: '03', year: '2026',
+    title: 'Property-OS',
+    Icon: Building2, iconClass: 'text-orange-400',
+    href: 'https://property-os-morning-briefing.property-os.workers.dev',
+    items: [
+      'Real-estate workflow command center',
+      'Turns a CSV lead list into a ranked morning briefing',
+      'Live map with NYC public records + Cloudflare D1 backend',
+    ],
+  },
+  {
+    num: '04', year: '2026',
+    title: 'VibePath',
+    Icon: Wand2, iconClass: 'text-violet-400',
+    href: 'https://vibepath-olive.vercel.app',
+    items: [
+      'Generate a full app from a text prompt with Claude',
+      'Auto-generates a lesson on what was just built',
+      'Structured JS & Python coding curriculum alongside it',
+    ],
+  },
+  {
+    num: '05', year: '2026',
+    title: 'Clean Hour',
+    Icon: Zap, iconClass: 'text-green-400',
+    href: 'https://clean-hour.vercel.app',
+    items: [
+      'Real-time grid carbon intensity across CA, TX, NY',
+      'Combines carbon data with live electricity pricing',
+      'Installable PWA with push notifications',
+    ],
+  },
+  {
+    num: '06', year: '2026',
+    title: 'TalentFlow',
+    Icon: FileSearch, iconClass: 'text-rose-400',
+    href: 'https://github.com/Tatopapi3/talentflow-agent',
+    items: [
+      'AI agent that pre-screens resumes against a job description',
+      'Cites the exact resume evidence behind every verdict',
+      'Advisory only — never auto-rejects a candidate',
+    ],
+  },
+  {
+    num: '07', year: '2026',
+    title: 'Moundvisit AI',
+    Icon: Brain, iconClass: 'text-cyan-400',
+    href: 'https://mound-visit-ai.vercel.app',
+    items: [
+      'Baseball mechanics coaching powered by AI',
+      'Smartphone video upload and analysis',
+      'Covers pitching, hitting, fielding and catching',
     ],
   },
 ] as const
