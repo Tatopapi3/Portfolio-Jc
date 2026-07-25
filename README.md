@@ -6,18 +6,18 @@ Personal developer portfolio for Juan Fernandez — AI developer & technical rec
 
 ## Pages
 
-- **`/`** — main landing page: a "liquid glass" design with a looping video background, hero with project preview cards, a projects deep-dive, an about section, and a contact CTA.
+- **`/`** — main landing page. The hero is a fullscreen cinematic "train stops" experience: switching between 4 stops crossfades the background video *and* swaps the headline/subtext, walking through the career arc one stop at a time — **Where It Started** (technical recruiting) → **Hackathon Season** (Amplif.ai + SnowAngel wins) → **Building in Production** (shipped projects) → **What's Next**. Below the hero: a projects deep-dive, an about section, and a contact CTA.
 - **`/lab`** — an alternate, more editorial experience: full-page scroll sections (Hero, About, Projects, Skills, Experience, Contact) with a different visual language (Instrument Serif + Almarai type, film-grain texture, scroll-triggered reveals).
 
 ## Projects showcased
 
-- **Moundvisit AI** — AI baseball mechanics coaching (Next.js, Claude API, Supabase, Vercel)
-- **NegotiateIQ** — AI salary negotiation coach with a RAG pipeline (Python, FastAPI, Claude API, Supabase, pgvector, Streamlit)
-- **TalentLensAI** — ML resume-to-role scorer + job market trend analyzer (Python, TensorFlow, scikit-learn, Streamlit)
 - **Amplif.ai** — hyperlocal NYC neighbor-connection platform, winner of 2 consecutive hackathons
 - **SnowAngel** — accessibility-first snow removal marketplace, hackathon winner
-- **The Next Chapter** — production website built for a paying client
-- **HyeoTalk** — AI-powered Korean language learning platform
+- **Property-OS** — real-estate command center turning CSV leads into a ranked morning briefing (Cloudflare Workers, D1, Leaflet, NYC Open Data)
+- **VibePath** — AI app builder paired with a structured coding curriculum (Next.js, Claude API, Supabase)
+- **Clean Hour** — real-time grid carbon intensity + electricity pricing across 3 US grids (Next.js, EIA Open Data, PWA)
+- **TalentFlow** — advisory AI agent that pre-screens resumes against a job description, citing evidence for every match (Python, Claude API, Strands Agents)
+- **Moundvisit AI** — AI baseball mechanics coaching (Next.js, Claude API, Supabase, Vercel)
 
 ## Tech stack
 
