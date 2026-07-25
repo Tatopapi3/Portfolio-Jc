@@ -6,14 +6,16 @@ Personal developer portfolio for Juan Fernandez — AI developer & technical rec
 
 ## Cycle builds
 
-Four standalone projects, each with its own README (problem, features, tech stack, live link):
+Four standalone projects. Each row links to the real code repo and live app;
+the "Case study" column links to a one-page problem/solution/features writeup
+for that cycle, kept in this repo.
 
-| Cycle | Project | What it does | Live |
-|---|---|---|---|
-| 1 | [VibePath](https://github.com/Tatopapi3/VibePath) | AI app builder paired with a coding curriculum | [Live](https://vibepath-olive.vercel.app) |
-| 2 | [Clean Hour](https://github.com/Tatopapi3/clean-hour) | Real-time grid carbon intensity + pricing across 3 US grids | [Live](https://clean-hour.vercel.app) |
-| 3 | [TalentFlow](https://github.com/Tatopapi3/talentflow-agent) | Advisory AI agent that pre-screens resumes against a job description | — |
-| 4 | [Property-OS](https://github.com/MITRAKER/PROPERTY-OS) | Real-estate command center — CSV leads to a ranked morning briefing | [Live](https://property-os-morning-briefing.property-os.workers.dev) |
+| Cycle | Project | What it does | Live | Case study |
+|---|---|---|---|---|
+| 1 | [VibePath](https://github.com/Tatopapi3/VibePath) | AI app builder paired with a coding curriculum | [Live](https://vibepath-olive.vercel.app) | [cycle-1/](cycle-1/README.md) |
+| 2 | [Clean Hour](https://github.com/Tatopapi3/clean-hour) | Real-time grid carbon intensity + pricing across 3 US grids | [Live](https://clean-hour.vercel.app) | — |
+| 3 | [TalentFlow](https://github.com/Tatopapi3/talentflow-agent) | Advisory AI agent that pre-screens resumes against a job description | — | — |
+| 4 | [Property-OS](https://github.com/MITRAKER/PROPERTY-OS) | Real-estate command center — CSV leads to a ranked morning briefing | [Live](https://property-os-morning-briefing.property-os.workers.dev) | — |
 
 ## Pages
 
