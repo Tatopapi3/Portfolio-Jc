@@ -15,7 +15,7 @@ for that cycle, kept in this repo.
 | 1 | [VibePath](https://github.com/Tatopapi3/VibePath) | AI app builder paired with a coding curriculum | [Live](https://vibepath-olive.vercel.app) | [cycle-1/](cycle-1/README.md) |
 | 2 | [Clean Hour](https://github.com/Tatopapi3/clean-hour) | Real-time grid carbon intensity + pricing across 3 US grids | [Live](https://clean-hour.vercel.app) | [cycle-2/](cycle-2/README.md) |
 | 3 | [TalentFlow](https://github.com/Tatopapi3/talentflow-agent) | Advisory AI agent that pre-screens resumes against a job description | — | [cycle-3/](cycle-3/README.md) |
-| 4 | [Property-OS](https://github.com/MITRAKER/PROPERTY-OS) | Real-estate command center — CSV leads to a ranked morning briefing | [Live](https://property-os-morning-briefing.property-os.workers.dev) | — |
+| 4 | [Property-OS](https://github.com/MITRAKER/PROPERTY-OS) | Real-estate command center — CSV leads to a ranked morning briefing | [Live](https://property-os-morning-briefing.property-os.workers.dev) | [cycle-4/](cycle-4/README.md) |
 
 ## Pages
 
