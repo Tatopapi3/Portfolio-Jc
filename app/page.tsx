@@ -117,7 +117,7 @@ const STOPS = [
     subtitle: 'VibePath, Clean Hour, TalentFlow, Property-OS, Moundvisit AI — five real, shipped products, not portfolio filler.',
   },
   {
-    video: 'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260702_080959_4cac5234-3573-464e-a5b7-76b94b8a7d61.mp4',
+    video: 'https://videos.pexels.com/video-files/3029469/3029469-hd_1920_1080_24fps.mp4',
     title: "What's Next",
     subtitle: "Open to AI developer roles, freelance projects, and collaborations that push what's possible.",
   },
